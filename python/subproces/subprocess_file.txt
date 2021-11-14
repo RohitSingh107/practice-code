@@ -1,0 +1,15 @@
+total 80
+drwxr-xr-x  2 rohit rohit  4096 Nov  4 12:51 .
+drwxr-xr-x 12 rohit   100  4096 Nov  2 20:10 ..
+-rw-r--r--  1 rohit rohit   428 Nov  2 20:19 HelloWorld.class
+-rw-r--r--  1 rohit rohit  2064 Nov  2 20:12 ls_dirs.py
+-rwxr-xr-x  1 rohit rohit 16080 Nov  2 20:19 out1
+-rwxr-xr-x  1 rohit rohit 16728 Nov  2 20:19 out2
+-rw-r--r--  1 rohit rohit   797 Nov  2 20:13 ping_c.py
+-rw-r--r--  1 rohit rohit   312 Nov  4 12:51 prac.py
+-rw-r--r--  1 rohit rohit   197 Nov  2 20:16 subp.c
+-rw-r--r--  1 rohit rohit   167 Nov  2 20:16 subp.cpp
+-rw-r--r--  1 rohit rohit   127 Nov  2 20:17 subp.java
+-rw-r--r--  1 rohit rohit  1041 Nov  2 20:19 subp.py
+-rw-r--r--  1 rohit rohit     0 Nov  4 12:51 subprocess_file.txt
+-rw-r--r--  1 rohit rohit   381 Nov  4 12:39 subprocess_template.py
