@@ -1,0 +1,27 @@
+-- Understanding folds
+
+-- foldl :: (b -> a -> b) -> b -> [a] -> b
+-- foldl f acc [] = acc
+-- foldl f acc (x:xs) = foldl f (f acc x) xs
+-- 
+-- 
+-- f = flip (*)
+-- 
+-- foldl f 1 [1,2,3]
+-- 
+-- fold f (f 1 1) [2,3]
+-- 
+-- fold f (f (f 1 1) 2) [3]
+-- 
+-- fold f (f (f (f 1 1) 2) 3) []
+-- 
+-- (f (f (f 1 1) 2) 3)
+-- 
+-- f (f (f 1 1) 2) 3
+-- 
+-- f (f 1 2) 3
+-- 
+-- f 2 3
+-- 
+-- 6
+

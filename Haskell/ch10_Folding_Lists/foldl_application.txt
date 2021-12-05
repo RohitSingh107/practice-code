@@ -1,0 +1,25 @@
+-- foldl
+
+foldl :: (b -> a -> b) -> b -> [a] -> b
+foldl f acc [] = acc
+foldl f acc (x:xs) = foldl f (f acc x) xs
+
+
+ f x y = concat ["(",x,"+",y,")"]
+
+foldl f "0" ["1", "2", "3"]
+
+foldl f (f "0" "1") [2,3]
+
+foldl f ("(0+1)") [2,3]
+
+foldl f (f ("(0+1)") "2") ["3"]
+
+foldl f ("((0+1)+2)") ["3"]
+
+foldl f (f ("((0+1)+2)") "3") []
+
+foldl f ("(((0+1)+2)+3)") []
+
+"(((0+1)+2)+3)"
+

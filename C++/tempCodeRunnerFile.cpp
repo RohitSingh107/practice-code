@@ -1,3 +1,4 @@
-    cout<<"The value of b is "<<(int)b<<endl;
-    cout<<"The value of b is "<<int(b)<<endl;
-    int c = int(b);
+ // Number(Number &obj){
+        //     cout<<"Copy constructor called"<<endl;
+        //     a = obj.a;
+        // }
