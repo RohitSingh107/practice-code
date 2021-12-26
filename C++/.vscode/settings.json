@@ -3,6 +3,8 @@
         "iostream": "cpp",
         "typeinfo": "cpp",
         "ostream": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "time.h": "c",
+        "string.h": "c"
     }
 }
