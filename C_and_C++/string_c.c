@@ -24,13 +24,13 @@ int main(){
     }while(b[i] != '\0');
     printf("\n");
 
-    // printf("\nEnter the string: ");
-    // char st[50];
-    // // scanf("%s", &st);
-    // gets(st);
+    printf("\nEnter the string: ");
+    char st[50];
+    // scanf("%s", &st);
+    gets(st);
 
-    // puts(st);
-    // printf("Entered String is %s\n", st);
+    puts(st);
+    printf("Entered String is %s\n", st);
 
     char * pnr = "Rohit Singh";
     puts(pnr);
