@@ -1,5 +1,7 @@
 -- Chapter Exercise
 
+import Data.Char
+
 -- String processing
 
 notThe :: String -> Maybe String
@@ -40,3 +42,30 @@ countVowels text = go text 0
 
 countVowels' :: String -> Integer
 countVowels' = fromIntegral . length . filter isVowel
+
+
+-- Validate the word
+newtype Word' = Word' String deriving (Eq, Show)
+
+-- vowels :: String
+-- vowels = "aeiou"
+
+mkWord :: String -> Maybe Word'
+mkWord word = (\(x,y) -> if x>y then Nothing else Just (Word' word)) $ go word (0,0)
+  where go (x:xs) (v,c) = if isVowel (toLower x) then go xs (v+1, c) else go xs (v, c+1)
+        go [] (v,c) = (v,c)
+
+data Nat = Zero
+         | Succ Nat
+         deriving (Eq, Show)
+
+natToInteger :: Nat -> Integer
+natToInteger Zero = 0
+natToInteger (Succ nat) = 1 + natToInteger nat
+
+integerToNat :: Integer -> Maybe Nat
+integerToNat i
+  | i < 0 = Nothing
+  | otherwise = Just $ go i
+                  where go 0 = Zero
+                        go n = Succ (go (n-1))   
