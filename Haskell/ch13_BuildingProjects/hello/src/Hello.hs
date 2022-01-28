@@ -2,6 +2,7 @@ module Hello
   ( sayHello ) 
   where
 
-sayHello :: IO ()
-sayHello = do
-  putStrLn "Hello Haskell World!"
+sayHello :: String -> IO ()
+sayHello name = do
+  putStrLn ("Hi " ++ name ++ "!")
+
