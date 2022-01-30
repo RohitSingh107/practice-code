@@ -105,6 +105,7 @@ runGame :: Puzzle -> IO ()
 runGame puzzle = forever $ do
   gameOver puzzle
   gameWin puzzle
+  putStrLn "\n"
   putStrLn $ "Current puzzle is: " ++ show puzzle
   putStrLn "Guess a letter: "
   guess <- getLine
