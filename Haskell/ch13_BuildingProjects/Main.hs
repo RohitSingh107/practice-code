@@ -16,6 +16,7 @@ main = do
     putStrLn "Enter the String: "
     text <- getLine
 
-    myCaesar' (read int :: Int) text
+    -- i = read int :: Int
+    print $ myCaesar' (read int :: Int) text
 
     return ()
