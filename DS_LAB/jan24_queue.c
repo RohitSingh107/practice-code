@@ -65,7 +65,6 @@ int dequeue(struct Queue * que){
     que->front = (que->front + 1) % que->capacity;
     que->size--;
 
-    printf("%d is dequeued.\n", x);
     return x;
 }
 
@@ -73,35 +72,44 @@ int main(){
 
     struct Queue * queue = builQueue(50);
 
-    display_queue(queue);
 
-    enqueue(queue, 1);
-    enqueue(queue, 2);
+    int c = 0;
+    while(c != 4){
 
-    display_queue(queue);
+        printf("===========================\n");
+        printf("Select the operation to perform: \n 1. Display Queue\n 2. Enque\n 3. Dequeue\n 4. Exit\n");
+        scanf("%d", &c);
 
-    dequeue(queue);
+        switch (c){
 
-    enqueue(queue, 3);
-    enqueue(queue, 4);
-    enqueue(queue, 5);
+            case 1:
+                display_queue(queue);
+                break;
 
-    printf("front and rear is %d and %d\n", queue->front, queue->rear);
-    printf("size is %d\n", queue->size);
-    display_queue(queue);
-    enqueue(queue, 6);
-    enqueue(queue, 7);
-    display_queue(queue);
-    printf("front and rear is %d and %d\n", queue->front, queue->rear);
-    enqueue(queue, 8);
-    enqueue(queue, 9);
+            case 2:
+                printf("Enter the element to Enque: ");
+                int data1;
+                scanf("%d", &data1);
+                enqueue(queue, data1);
+                printf("New ");
+                display_queue(queue);
 
-    // dequeue(queue);
-    display_queue(queue);
+                break;
+            
+            case 3:
+                printf("%d is Dequeued\n", dequeue(queue));
+                printf("New ");
+                display_queue(queue);
+                break;
+        
+            case 4:
+                c = 4;
+                break;
 
-    // printf("Element is %d, %d", queue->rear - 1, queue->rear);
-
-
+            default:
+                printf("Please Enter the valid choice: \n");
+                break;
+        }
+    }
     return 0;
-    
 }

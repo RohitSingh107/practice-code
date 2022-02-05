@@ -26,7 +26,10 @@ minWordLength :: Int
 minWordLength = 3
 
 maxWordLength :: Int
-maxWordLength = 7
+maxWordLength = 5
+
+incorrectGuess :: Int
+incorrectGuess = 10
 
 gameWords :: IO WordList
 gameWords = do
@@ -87,17 +90,17 @@ handleGuess puzzle guess = do
       return (fillInCharacter puzzle guess)
        
 gameOver :: Puzzle -> IO ()
-gameOver (Puzzle wordToGuess _ guessed) =
-  if (length guessed) > 10 then
+gameOver (Puzzle wordToGuess ag guessed) =
+  if (length guessed) > (incorrectGuess + (length $ filter isJust ag)) then
     do putStrLn "You Lose!"
        putStrLn $ "The word was: " ++ wordToGuess
        exitSuccess
-  else return ()    
+  else return () 
 
 gameWin :: Puzzle -> IO ()
-gameWin (Puzzle _ filledInSoFar _) = 
+gameWin (Puzzle puzzleWord filledInSoFar _) = 
   if all isJust filledInSoFar then
-    do putStrLn "You win!"
+    do putStrLn $ "\n\nYou win! \nYou sucessfully guessed the word was " ++ puzzleWord
        exitSuccess
    else return ()  
 

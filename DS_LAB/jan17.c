@@ -3,10 +3,8 @@
 
 
 struct Node{
-
     int data;
     struct Node * next;
-
 };
 
 void display_ll(struct Node * ptr){
@@ -24,7 +22,6 @@ void display_ll(struct Node * ptr){
         }
         printf(" %d |\n", ptr->data);
     }
-
 }
 
 struct Node * insertAtFirst(struct Node ** head_ref, int data){
@@ -129,7 +126,6 @@ int main(){
 
     int c;
     c = 0;
-
     while(c != 6){
 
         printf("===========================\n");
@@ -199,6 +195,5 @@ int main(){
                 break;
         }
     }
-
     return 0;
 }

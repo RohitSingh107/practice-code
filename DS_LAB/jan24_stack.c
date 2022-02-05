@@ -1,7 +1,5 @@
 #include<stdio.h>
 #include<stdlib.h>
-// #include<string.h>
-
 
 struct Stack{
     int top;
@@ -28,6 +26,12 @@ int isEmpty(struct Stack * st){
 }
 
 void display_stack(struct Stack * st){
+
+    if(isEmpty(st)){
+        printf("Stack is Empty!\n");
+        return;
+    }
+
     printf("\nStack is:\n");
     for(int i = st->size -1; i >= 0; i--){
         printf("|\t%d\t|\n", st->array[i]);
@@ -52,21 +56,43 @@ int pop(struct Stack * st){
     return st->array[st->top--];
 }
 
-
-
 int main(){
 
-    struct Stack * stack = buildStack(5);
+    // Empty Stack
+    struct Stack * stack = buildStack(100);
+    int c = 0;
+    while(c != 4){
 
-    push(stack, 6);
-    push(stack, 5);
-    push(stack, 100);
-    display_stack(stack);
-    pop(stack);
-    display_stack(stack);
+        printf("===========================\n");
+        printf("Select the operation to perform: \n 1. Display Stack\n 2. Push\n 3. Pop\n 4. Exit\n");
+        scanf("%d", &c);
 
-    
+        switch (c){
 
+            case 1:
+                display_stack(stack);
+                break;
 
+            case 2:
+                printf("Enter the element to Push: ");
+                int data1;
+                scanf("%d", &data1);
+                push(stack, data1);
+                break;
+            
+            case 3:
+                printf("%d is Popped\n", pop(stack));
+                break;
+
+        
+            case 4:
+                c = 4;
+                break;
+
+            default:
+                printf("Please Enter the valid choice: \n");
+                break;
+        }
+    }
     return 0;
 }
