@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
 
 
 struct Node {
@@ -8,23 +7,19 @@ struct Node {
     struct Node * next;
 };
 
-void display_node(struct Node * node){
-    printf("Element is %d\n", node->data);
-}
 
 void listTraversal(struct Node * head){
     if(head == NULL){
-        printf("List is empty!\n");
+        printf("\nList is empty!\n");
     }
     else{
-        
-    
         struct Node * ptr = head;
-        printf("Elements in lists are: \n");
+        printf("\nElements in lists are: \n");
         do{
-            printf("Element is %d\n", ptr->data);
+            printf(" %d ", ptr->data);
             ptr = ptr->next;
         }while(ptr != head);
+        printf("\n");
     }
 }
 

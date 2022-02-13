@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1644655624 source:/home/rohit/mydata/code/DS_LAB/doublyLinkedList/main.c
+	<stdio.h>
+	<stdlib.h>
+

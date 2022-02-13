@@ -8,10 +8,10 @@ struct Node{
 
 void display_stack(struct Node * top){
     if(top == NULL){
-        printf("Stack is underflowed!");
+        printf("Stack is underflowed!\n");
     }
     else{
-        printf("Here is your stack:\n");
+        printf("Stack:\n");
         struct Node * tmp = top;
         while(tmp != NULL){
             printf("|\t%d\t|\n", tmp->data);
@@ -26,6 +26,7 @@ void push(struct Node ** top, int data){
     newnode->data = data;
     newnode->next = *top;
     *top = newnode;
+    printf("Element %d is pushed.\n", data);
 }
 
 int pop(struct Node ** top){
@@ -38,12 +39,11 @@ int pop(struct Node ** top){
         int x = tmp->data;
 
         *top = (*top)->next;
+        printf("Element %d is popped\n", x);
         free(tmp);
         return x;
     }
 }
-
-// int isEmpty();
 
 
 
@@ -51,23 +51,20 @@ int main(){
 
     struct Node * top = NULL;
 
+    display_stack(top);
+    push(&top, 9);
     push(&top, 7);
     push(&top, 8);
-    push(&top, 9);
     push(&top, 10);
-
-    // printf("data is %d\n", top->data);
-    // printf("data is %d\n", top->next->data);
-    // printf("data is %d\n", top->next->next->data);
-    // printf("data is %d\n", top->next->next->next->data);
-    
     display_stack(top);
-    // printf("data is %d\n", top->data);
     pop(&top);
-    // printf("data is %d\n", top->data);
-    // printf("data is %d\n", top->next->data);
-    
+    pop(&top);
     display_stack(top);
+    push(&top, 310);
+    push(&top, 1910);
+    push(&top, 110);
+    display_stack(top);
+
 
     return 0;
 }
