@@ -1,4 +1,1 @@
- // Number(Number &obj){
-        //     cout<<"Copy constructor called"<<endl;
-        //     a = obj.a;
-        // }
+	    for(int i =0; i<n; i++){

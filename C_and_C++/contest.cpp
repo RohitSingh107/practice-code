@@ -18,10 +18,14 @@ int main() {
 	    }
 	    for(int i =0; i< n; i++){
 	        if(g1<= g2){
+                // printf("1. Data is %d %d\n", g1, g2);
 	            g1 = g1 + p[i];
+                // printf("2. Data is %d %d\n", g1, g2);
 	        }
 	        else{
-	            g2 = g1 + p[i];
+                // printf("3. Data is %d %d\n", g1, g2);
+	            g2 = g2 + p[i];
+                // printf("4. Data is %d %d\n", g1, g2);
 	        }
 	    }
 	    if(g1>g2){

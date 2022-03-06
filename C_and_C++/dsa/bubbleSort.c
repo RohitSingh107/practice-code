@@ -15,6 +15,7 @@ void swap(int *a, int *b){
 
 int partition(int arr[], int low, int high){
 	int pivot = arr[high/2];
+	// int pivot = arr[low];
 	int i = low, j = high;
 	while(i<j){
 		while(arr[i]< pivot){
@@ -81,15 +82,15 @@ void selectionSort(int arr[], int n){
 
 void quickSort(int arr[], int low, int high){
 	if(low < high){
-		int pi = partition(arr, low, high);
-		quickSort(arr, low, pi);
-		quickSort(arr, pi+1, high);
+		int j = partition(arr, low, high);
+		quickSort(arr, low, j);
+		quickSort(arr, j+1, high);
 	}
 }
 
 int main(void){
 
-	int arr[] = {6,3,32,0,5,8,15,10,12,4};
+	int arr[] = {6,3,5,32,0,8,15,10,12,4};
 	// int arr[] = {9,8,7,6,5,4,3,2,1,0};
 	// int arr[] = {0,1,9,3,4,0,6,7,8,9};
 	int size = 10;
@@ -100,17 +101,11 @@ int main(void){
 	// insertionSort(arr, size);
 	// display(arr, size);
 	// selectionSort(arr, size);
+	display(arr, size);
+	// partition(arr, 0, size -1);
+	quickSort(arr, 0, 9);
 
-	// int arrt[] = {5,1,0,7};
-	int arrt[] = {5,9,2,3};
-	int s = 4;
-	display(arrt, s);
-	quickSort(arrt, 0, s-1);
-	display(arrt, s);
-
-	// int t[] = {5,1,6};
-	// partition(t, 0, 2);
-	// display(t, 3);
+	display(arr, size);
 
 
 	return 0;
