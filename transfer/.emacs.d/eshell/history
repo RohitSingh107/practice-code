@@ -1,0 +1,48 @@
+ls
+exit
+echo "$SHELL"
+ls
+exit
+ls
+rm qk.sh 
+exit
+ls
+fish
+exit
+ls
+exa -la
+ls
+exit
+ll
+alias ll 'ls -l $*'
+ll
+exa
+exa -la
+exa -l
+exa -la
+alias ll 'exa -la $*'
+ll
+ll
+ll
+ll
+ll
+ll
+neofetch
+neofetch | lolcat
+exit
+ls
+echo $HOME
+ls snap
+tree snap
+exit
+picom
+exit
+sudo micro /usr/share/xsessions/FrankenWM.desktop
+exit
+ls
+ls
+exa -la
+neofetch
+ls
+exa -la
+exit
