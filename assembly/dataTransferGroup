@@ -1,0 +1,50 @@
+
+;<Program title>
+
+jmp start
+
+;data
+
+
+;code
+start: nop
+
+LXI H, 7832H; 
+
+MVI A, 45H;
+
+MOV H, A;
+
+MVI L, 12H;
+
+LXI H, 1134H;
+
+LXI D, 3556H;
+
+MOV B, D;
+
+MVI A, 14H;
+
+MOV H, A;
+
+LXI H, 1932H;
+
+MOV B, M;
+
+LDA 0007H;
+
+STA 0009H;
+
+LHLD 000AH;
+
+MOV B, M;
+
+SHLD 0010H;
+
+LDA 0011H;
+
+;LDAX D;
+
+XCHG;
+
+hlt

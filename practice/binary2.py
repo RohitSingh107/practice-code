@@ -1,0 +1,6 @@
+f = open('binaryfile.txt', 'br')
+binary=f.read()
+print(binary)
+data = list(binary)
+print(data)
+f.close()

@@ -1,66 +1,56 @@
-#include <bits/stdc++.h>
-#include <graphics.h>
-using namespace std;
-
-void bresenhamAlgo(int x1, int y1, int x2, int y2){
-    int dy = y2 - y1;
-    int dx = x2 - x1;
-    float slope = dy/dx;
-    int p = 2*dy - dx;
-    int x = x1;
-    int y = y1;
-    while(x <= x2){
-        if(slope>=1){
-            if(p>=0){
-                // putpixel(x,y, RED);
-                cout<<x<<" "<<y<<endl;
-                x++;
-                y++;
-                p += 2*dx - 2*dy;
-            }
-            else{
-                // putpixel(x,y, RED);
-                cout<<x<<" "<<y<<endl;
-                y++;
-                p += 2*dx;
-            }
-            // delay(20);
-        }
-        else{
-            if(p>=0){
-                // putpixel(x,y, YELLOW);
-                cout<<x<<" "<<y<<endl;
-                x++;
-                y++;
-                p += 2*dy - 2*dx;
-            }
-            else{
-                // putpixel(x,y, YELLOW);
-                cout<<x<<" "<<y<<endl;
-                x++;
-                p += 2*dy;
-            }
-            // delay(20);
-        }
-    }
-}
-
-int main(){
+    #include <bits/stdc++.h>
+    // #include <cstdio>
+    // #include <cstring>
+    // #include <cmath>
+    // #include <cstring>
+    // #include <chrono>
+    // #include <complex>
+    #define el endl
+    #define ll long long int
+    #define vi vector<int>
+    #define vll vector<ll>
+    #define vvi vector < vi >
+    #define pii pair<int,int>
+    #define pll pair<long long, long long>
+    #define mod 1000000007
+    #define inf 1000000000000000001;
+    #define all(c) c.begin(),c.end()
+    #define mp(x,y) make_pair(x,y)
+    // #define mem(a,val) memset(a,val,sizeof(a))
+    #define f first
+    #define s second
     
-    int  x1, y1, x2, y2;
+    using namespace std;
+    int main()
+    {
+        std::ios::sync_with_stdio(false);
+        int T;
+        cin>>T;
+        // cin.ignore(); must be there when using getline(cin, s)
+        while(T--)
+        {
+            int n;
+            cin>>n;
+            int ans = 0;
+            n = 73452;
 
-    int gdriver=DETECT,gmode;
+            while(n > 0){
+                // cout<<"NO"<<endl;
+                int r = n % 10;
+                if(r%2 == 0){
+                    ans++;
+                }
+                n = n/10;
+                if(ans >= 2){
+                    cout<<"YES"<<endl;
+                }
+                return 0;
+            }
 
-    // initgraph(&gdriver, &gmode, NULL);
+            cout<<"NO"<<endl;
 
-    x1 = 350;
-    x2 = 400;
-    y1 = 50;
-    y2 = 30;
 
-    bresenhamAlgo(x1,x2,y1,y2);
-    // getch();
-    // closegraph();
 
-    return 0;
-}
+        }
+        return 0;
+    }

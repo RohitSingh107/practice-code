@@ -1,0 +1,5 @@
+f = open("file.txt", "a")
+name = input('What is your name ?')
+print('Hello ' + name)
+f.write(name + '\n')
+f.close()
