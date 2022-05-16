@@ -1,0 +1,25 @@
+
+;<Program title>
+
+jmp start
+
+;data
+;code
+start: nop
+
+; I WILL STORE CARRY AT 0004H;
+
+MVI C, 0000H
+LXI H, 0000H
+MOV A, M
+INX H
+ADD M
+STA 002H
+
+JNC END
+INR C
+LXI H, 0000H
+MOV H, C
+SHLD 0003H
+
+END: hlt
