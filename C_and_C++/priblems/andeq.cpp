@@ -37,6 +37,8 @@ typedef vector<p64> vp64;
 typedef vector<p32> vp32;
 ll MOD = 998244353;
 double eps = 1e-12;
+#define in32(v) for(int &i : v) cin>>i
+#define in64(v) for(ll &i : v) cin>>i
 #define forn(i,e) for(ll i = 0; i < e; i++)
 #define forsn(i,s,e) for(ll i = s; i < e; i++)
 #define rforn(i,s) for(ll i = s; i >= 0; i--)
@@ -125,18 +127,23 @@ void toConsole(std::initializer_list<T> list){
 void solve(){
 	int n;
 	cin>>n;
-	vector<int> st(n);
-	vector<int> arr(n);
-	for (int i = 0; i < n; i++) {
-		cin>>arr[i];
-		if(i == 0){
-			st[i] = arr[i];
-		}
-		else{
-			st[i] = st[i-1] & arr[i];
+	v32 v(n);
+	in32(v);
+	int tA = (1<<30) -1;
+	forn(i, n){
+		tA = v[i] & tA;
+	}
+	/* std::cout << tA << std::endl; */
+	int groups = 0;
+	ll lA = (1<<30) -1;
+	forn(i, n){
+		lA = lA & v[i];
+		if(lA == tA){
+			groups++;
+			lA = (1<<30) -1;
 		}
 	}
-	toConsole(st);
+	cout<<n-groups<<endl;
 }
 
 int32_t main() {
