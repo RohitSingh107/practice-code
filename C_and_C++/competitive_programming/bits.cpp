@@ -94,6 +94,8 @@ int32_t main(){
 		std::cout << "power of 2" << std::endl;
 	}
 
+	std::cout << 0b1001 << std::endl;
+
 	return 0;
 }
 
