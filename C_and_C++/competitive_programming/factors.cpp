@@ -1,4 +1,5 @@
 #include <unordered_set>
+#include <vector>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #pragma GCC optimize("unroll-loops")
@@ -27,6 +28,21 @@ pair<unordered_set<int>, pair<int, int>> divisors(int n){
 	return {set_of_divisors, {cnt, sum}};
 }
 
+vector<int> primeFactors(int n){
+	vector<int> res;
+	
+	for(int i = 2; i <= n; ++i){
+		while (n % i == 0) {
+			res.push_back(i);
+			n /= i;
+		}
+	}
+	if(n > 1){
+		res.push_back(n);
+	}
+	return res;
+}
+
 int32_t main(){
 	
 	auto res = divisors(36);
@@ -34,6 +50,11 @@ int32_t main(){
 	std::cout << "There are total "<< res.second.first << " divisors with sum "<< res.second.second << std::endl;
 
 	for(auto i : res.first){
+		std::cout << i << std::endl;
+	}
+	
+	std::cout << "Prime Factors" << std::endl;
+	for(auto i : primeFactors(1e9+7)){
 		std::cout << i << std::endl;
 	}
 	return 0;
