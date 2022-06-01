@@ -1,77 +1,57 @@
 #pragma GCC optimize("Ofast")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #pragma GCC optimize("unroll-loops")
+#include <bits/stdc++.h>
 
-#include<bits/stdc++.h>
 using namespace std;
 
-#define ll long long 
+const int M = 1e9+7;
+const int N = 1e6+10;
+int factorial[N];
 
-ll fac[1000001];
-
-ll pwr(ll a, ll b, ll mod){ 
-	ll x = 1, y = a; 
-	while (b > 0){ 
-		if (b%2){ 
-			x = (x*y)%mod; 
-		} 
-		y = (y*y)%mod; 
-		b /= 2; 
-	} 
-	return x%mod; 
-}	 
- 
-ll mI(ll n, ll mod){ 
-	return pwr(n, mod-2, mod); 
-} 
- 
-ll nCr(ll n, ll k, ll mod){ 
-	return (fac[n]*((mI(fac[k], mod) * mI(fac[n-k], mod)) % mod)) % mod; 
+int binExp(int a, int b, int m){
+	int ans = 1;
+	while (b) {
+		if(b&1){
+			ans = (ans * 1LL * a) % m;
+		}
+		a = (a * 1LL * a) % m;
+		b >>= 1;
+	}
+	return ans;
 }
 
-int main()
-{
+int nCr(int n, int r){
+
+	int ans = factorial[n];
+	int den = (factorial[r] * 1LL * factorial[n - r]) % M;
+	// Finding Modular Multiplicative Inverse
+	ans = (ans * 1LL * binExp(den, M - 2, M)) % M;
+
+	return ans;
+}
+
+int nPr(int n, int r){
+
+	int ans = factorial[n];
+	int den = factorial[n - r];
+	// Finding Modular Multiplicative Inverse
+	ans = (ans * 1LL * binExp(den, M - 2, M)) % M;
+
+	return ans;
+}
+
+
+int32_t main(){
 	
-	fac[0] = 1;
-	fac[1] = 1;
-	for(ll i = 2; i< 1000001; i++){
-		fac[i] = fac[i-1] * i % 1000000007;
+	factorial[0] = 1;
+	for(int i = 1; i < N; ++i){
+		factorial[i] = (factorial[i-1] * 1LL * i) % M;
 	}
 
+	std::cout << nCr(86, 83) << std::endl;
+	std::cout << nPr(7, 2) << std::endl;
 
-	long long int p = 1000000007;
-
-
-	int t;
-	cin>>t;
-	while (t--) {
-
-	int n, l , r;
-	cin>>n>>l>>r; 
-	if(n & 1){
-		for(int i = l; i<=r; i++){
-			if(i & 1){
-				cout<<nCr(n, (n/2) - (abs(i)/2), p)<<" ";
-				
-			}
-			else{
-				cout<<"0 ";
-			}
-		}
-		cout<<endl;
-	}
-	else{
-		for(int i = l; i<=r; ++i){
-			if(i & 1){
-				cout<<"0 ";
-			}
-			else{
-				cout<<nCr(n, (n/2) - (abs(i)/2), p)<<" ";
-			}
-		}
-		cout<<endl;
-	}
-
-	}
 	return 0;
 }
+
