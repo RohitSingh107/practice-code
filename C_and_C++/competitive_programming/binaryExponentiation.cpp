@@ -35,17 +35,18 @@ int binExpIter(int a, int b){
 }
 
 int32_t main(){
+	auto start2 = high_resolution_clock::now();
+	std::cout << binExpIter(2123123777, 1231231444) << std::endl;
+	auto stop2 = high_resolution_clock::now();
+	auto duration2 = duration_cast<microseconds>(stop2 - start2);
+	cout << "Time taken by iteration " << duration2.count() << " microseconds" << endl;
 	
 	auto start = high_resolution_clock::now();
 	std::cout << binExpRec(2123123777, 1231231444) << std::endl;
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds>(stop - start);
 	cout << "Time taken by recursion: " << duration.count() << " microseconds" << endl;
-	auto start2 = high_resolution_clock::now();
-	std::cout << binExpIter(2123123777, 1231231444) << std::endl;
-	auto stop2 = high_resolution_clock::now();
-	auto duration2 = duration_cast<microseconds>(stop - start);
-	cout << "Time taken by iteration " << duration2.count() << " microseconds" << endl;
+
 	return 0;
 }
 
