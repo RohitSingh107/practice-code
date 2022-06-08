@@ -18,7 +18,7 @@ applyTimes 0 f b = b
 applyTimes n f b = f . applyTimes (n-1) f $ b
 
 incTimes' :: (Eq a, Num a) => a -> a -> a
-incTimes' times n = applyTimes times (+1) n
+incTimes' times = applyTimes times (+1) 
 
 
 

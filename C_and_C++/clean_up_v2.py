@@ -16,7 +16,7 @@ def clean_dir(dir_name):
         if os.path.isdir(i):
             clean_dir(os.path.join(dir_name, i))
 
-        elif i.endswith('.cpp') or i.endswith('.py') or i.endswith('.c') or i.endswith('.txt'):
+        elif i.endswith('.cpp') or i.endswith('.py') or i.endswith('.c') or i.endswith('.txt') or i.endswith('.in'):
             pass
         else:
             files_to_delete.append(os.path.join(dir_name, i))
