@@ -151,6 +151,14 @@ class Employee extends PersonImp {
 
 const emp = new Employee(3, "Shawn", "Developer")
 
+// Generics
+function getArray<T>(items: T[]) : T[] {
+	return new Array().concat(items)
+}
+let numArray = getArray<number>([1,2,3,4])
+let strArray = getArray<string>(["d","v","b","a"])
+// numArray.push('hello')
+
 console.log(isPublished)
 console.log(x)
 console.log(arr)

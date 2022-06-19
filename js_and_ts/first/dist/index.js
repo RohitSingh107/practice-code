@@ -83,6 +83,13 @@ class Employee extends PersonImp {
     }
 }
 const emp = new Employee(3, "Shawn", "Developer");
+// Generics
+function getArray(items) {
+    return new Array().concat(items);
+}
+let numArray = getArray([1, 2, 3, 4]);
+let strArray = getArray(["d", "v", "b", "a"]);
+// numArray.push('hello')
 console.log(isPublished);
 console.log(x);
 console.log(arr);
