@@ -35,6 +35,7 @@ enum Directions {
 	Left,
 	Right,
 }
+
 enum Directions2 {
 	Up = 'Up', // By default it's 0
 	Down = 'Down',
@@ -42,6 +43,113 @@ enum Directions2 {
 	Right = 'Right',
 }
 
+// Objects
+// const user: {
+// 	id: number,
+// 	name: string,
+// } = {
+// 	id: 1,
+// 	name: 'John',
+// }
+
+type User = {
+	id: number
+	name: string
+}
+
+const user: User = {
+	id: 1,
+	name: 'John',
+}
+
+interface UserInterface  {
+	readonly id: number
+	name: string
+	age?: number
+}
+
+const user1: UserInterface = {
+	id: 1,
+	name: 'John',
+}
+
+user1.name = "Rohit"
+// user1.id = 7; // can't be assigned to read only
+
+
+// Tye Assertion
+let cid: any = 1;
+// let customerId = cid as number
+let customerId = <number>cid
+
+function addNum(x: number, y:number) : number {
+	return x + y
+}
+
+function log(message: string | number): void {
+	console.log("Message is " + message);
+}
+
+interface MathFunc {
+	(x: number, y: number): number
+}
+
+const add: MathFunc = (a: number, b: number) : number => a + b;
+const sub: MathFunc = (a: number, b: number) : number => a - b;
+
+
+class Person{
+	private id: number
+	name: string
+
+	constructor(id: number, name: string){
+		console.log("Constructor called")
+		this.id = id
+		this.name = name
+	}
+	
+	register(){
+
+		return `${this.name} is now registered`
+	}
+
+}
+
+
+const rohit = new Person(1, "Rohit")
+const singh = new Person(2, "Singh")
+
+
+interface PersonInterface  {
+	id: number
+	name: string
+	register(): string
+}
+
+class PersonImp implements PersonInterface {
+	id: number
+	name: string
+	constructor(id: number, name: string){
+		this.id = id
+		this.name = name
+	}
+	register(): string {
+		return `${this.name} is now registered`
+	}
+
+}
+
+class Employee extends PersonImp {
+	position: string
+
+	constructor(id: number, name: string, position: string){
+		super(id, name)
+		this.position = position
+	}
+
+}
+
+const emp = new Employee(3, "Shawn", "Developer")
 
 console.log(isPublished)
 console.log(x)
@@ -51,3 +159,14 @@ console.log(employee)
 console.log(pid)
 console.log(Directions.Down)
 console.log(Directions2.Left)
+console.log(user)
+
+console.log(addNum(7, 8))
+
+log("JavaScript")
+log(7)
+
+console.log(rohit, singh)
+console.log(rohit.register())
+
+console.log(emp.register())
