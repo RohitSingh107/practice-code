@@ -34,29 +34,85 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function rohit() {
+var stocks = {
+    Fruits: ["stawberry", "grapes", "banana", "apple"],
+    Liquid: ["water", "ice"],
+    Holder: ["cone", "cup", "stick"],
+    Toppings: ["chocolates", "peanuts"]
+};
+var is_shop_open = false;
+// async function order() {
+// 	try{
+// 		await abc;
+// 	}
+// 	catch(error){
+// 		console.log("Runs code anyway")
+// 		console.error(error)
+// 	}
+// 	finally{
+// 		console.log("Runs code anyway");
+// 	}
+// }
+function timef(ms) {
+    return new Promise(function (resolve, reject) {
+        if (is_shop_open) {
+            setTimeout(resolve, ms);
+        }
+        else {
+            reject(console.log("Shop is closed"));
+        }
+    });
+}
+function kitchen() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, users;
+        var error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log('Insize Rohhit function');
-                    return [4 /*yield*/, fetch("https://api.github.com/users")];
+                    _a.trys.push([0, 9, 10, 11]);
+                    return [4 /*yield*/, timef(2000)];
                 case 1:
-                    response = _a.sent();
-                    console.log("Before response");
-                    return [4 /*yield*/, response.json()];
+                    _a.sent();
+                    console.log("".concat(stocks.Fruits[0], " was selected"));
+                    return [4 /*yield*/, timef(0)];
                 case 2:
-                    users = _a.sent();
-                    console.log("After response");
-                    return [2 /*return*/, users];
+                    _a.sent();
+                    console.log("Start the Production");
+                    return [4 /*yield*/, timef(2000)];
+                case 3:
+                    _a.sent();
+                    console.log("cut the fruit");
+                    return [4 /*yield*/, timef(0)];
+                case 4:
+                    _a.sent();
+                    console.log("".concat(stocks.Liquid[0], " and ").concat(stocks.Liquid[1], " was added"));
+                    return [4 /*yield*/, timef(1000)];
+                case 5:
+                    _a.sent();
+                    console.log("Start the machine");
+                    return [4 /*yield*/, timef(2000)];
+                case 6:
+                    _a.sent();
+                    console.log("Icecream placed on ".concat(stocks.Holder[0]));
+                    return [4 /*yield*/, timef(3000)];
+                case 7:
+                    _a.sent();
+                    console.log("".concat(stocks.Toppings[0], " was selected"));
+                    return [4 /*yield*/, timef(2000)];
+                case 8:
+                    _a.sent();
+                    console.log("serve the icecream");
+                    return [3 /*break*/, 11];
+                case 9:
+                    error_1 = _a.sent();
+                    console.log("Customer left", error_1);
+                    return [3 /*break*/, 11];
+                case 10:
+                    console.log("Day ended, shop closed");
+                    return [7 /*endfinally*/];
+                case 11: return [2 /*return*/];
             }
         });
     });
 }
-console.log("Before calling rohit");
-var a = rohit();
-console.log("After calling rohit");
-console.log(a);
-a.then(function (data) { return console.log(data); });
-console.log("Last line");
+kitchen();

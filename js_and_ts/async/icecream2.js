@@ -34,29 +34,91 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function rohit() {
+var stocks = {
+    Fruits: ["stawberry", "grapes", "banana", "apple"],
+    Liquid: ["water", "ice"],
+    Holder: ["cone", "cup", "stick"],
+    Toppings: ["chocolates", "peanuts"]
+};
+var is_shop_open = true;
+// async function order() {
+// 	try{
+// 		await abc;
+// 	}
+// 	catch(error){
+// 		console.log("Runs code anyway")
+// 		console.error(error)
+// 	}
+// 	finally{
+// 		console.log("Runs code anyway");
+// 	}
+// }
+var toppings_choice = function () {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(console.log("Which topping would ypu love? "));
+        }, 3000);
+    });
+};
+var tmp = function () {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(console.log("Temp function"));
+        }, 2000);
+    });
+};
+var tmp2 = function () {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(console.log("Temp 2 function"));
+        }, 4000);
+    });
+};
+var tmp4 = function () {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(console.log("Temp 4 function"));
+        }, 5000);
+    });
+};
+function kitchen() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, users;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log('Insize Rohhit function');
-                    return [4 /*yield*/, fetch("https://api.github.com/users")];
+                    console.log(" A ");
+                    console.log(" B ");
+                    console.log(" C ");
+                    return [4 /*yield*/, tmp()];
                 case 1:
-                    response = _a.sent();
-                    console.log("Before response");
-                    return [4 /*yield*/, response.json()];
+                    _a.sent();
+                    return [4 /*yield*/, tmp4()];
                 case 2:
-                    users = _a.sent();
-                    console.log("After response");
-                    return [2 /*return*/, users];
+                    _a.sent();
+                    return [4 /*yield*/, tmp2()];
+                case 3:
+                    _a.sent();
+                    console.log(" D ");
+                    console.log(" E ");
+                    return [2 /*return*/];
             }
         });
     });
 }
-console.log("Before calling rohit");
-var a = rohit();
-console.log("After calling rohit");
-console.log(a);
-a.then(function (data) { return console.log(data); });
-console.log("Last line");
+function tmp3() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, toppings_choice()];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+kitchen();
+tmp3();
+console.log("Cleaning the dishes");
+console.log("Cleaning the tables");
+console.log("Taking other orders");

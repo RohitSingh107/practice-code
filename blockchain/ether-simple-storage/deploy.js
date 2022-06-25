@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,29 +35,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function rohit() {
+exports.__esModule = true;
+var ethers_1 = require("ethers");
+var fs = require("fs-extra");
+function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, users;
+        var provider, wallet, abi, binary, contractFactory, contract, transactionReceipt, currentFavoriteNumber, transactionResponse, transactionReceipt2, updatedFavoriteNumber;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log('Insize Rohhit function');
-                    return [4 /*yield*/, fetch("https://api.github.com/users")];
+                    provider = new ethers_1.ethers.providers.JsonRpcProvider("http://127.0.0.1:7545");
+                    wallet = new ethers_1.ethers.Wallet("61e90184fe27bf29c3dff1c75bc9eebff22c2398e38874fa7a5a3abefaef2ea5", provider);
+                    abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");
+                    binary = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.bin", "utf8");
+                    contractFactory = new ethers_1.ethers.ContractFactory(abi, binary, wallet);
+                    console.log("Deploying, Please wait");
+                    return [4 /*yield*/, contractFactory.deploy()
+                        // console.log(contract)
+                    ];
                 case 1:
-                    response = _a.sent();
-                    console.log("Before response");
-                    return [4 /*yield*/, response.json()];
+                    contract = _a.sent();
+                    return [4 /*yield*/, contract.deployTransaction.wait(1)];
                 case 2:
-                    users = _a.sent();
-                    console.log("After response");
-                    return [2 /*return*/, users];
+                    transactionReceipt = _a.sent();
+                    console.log("here is Deployement transaction (transaction response): ");
+                    console.log(contract.deployTransaction);
+                    console.log("Here is transaction receipt");
+                    console.log(transactionReceipt);
+                    console.log("lets depliy with only transaction data!");
+                    console.log("\nInteracting with contract");
+                    return [4 /*yield*/, contract.retrive()];
+                case 3:
+                    currentFavoriteNumber = _a.sent();
+                    console.log("Current favorite number is ".concat(currentFavoriteNumber.toString()));
+                    return [4 /*yield*/, contract.store("7")];
+                case 4:
+                    transactionResponse = _a.sent();
+                    return [4 /*yield*/, transactionResponse.wait(1)];
+                case 5:
+                    transactionReceipt2 = _a.sent();
+                    return [4 /*yield*/, contract.retrive()];
+                case 6:
+                    updatedFavoriteNumber = _a.sent();
+                    console.log("Updated favorite number is: ".concat(updatedFavoriteNumber));
+                    return [2 /*return*/];
             }
         });
     });
 }
-console.log("Before calling rohit");
-var a = rohit();
-console.log("After calling rohit");
-console.log(a);
-a.then(function (data) { return console.log(data); });
-console.log("Last line");
+main()
+    .then(function () { return process.exit(0); })["catch"](function (error) {
+    console.error(error);
+    process.exit(1);
+});

@@ -1,4 +1,4 @@
-async function rohit() {
+async function rohit() : Promise<any> {
 	console.log('Insize Rohhit function')
 
 	const response : Response = await fetch("https://api.github.com/users");
@@ -14,3 +14,4 @@ console.log("After calling rohit")
 console.log(a);
 a.then(data => console.log(data))
 console.log("Last line")
+
