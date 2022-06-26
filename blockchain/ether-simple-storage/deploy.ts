@@ -1,5 +1,6 @@
 import { ethers } from "ethers"
 import * as fs from "fs-extra"
+import "dotenv/config"
 
 async function main() : Promise<void> {
 	// console.log("Hi")
@@ -8,13 +9,17 @@ async function main() : Promise<void> {
 	// HTTP://127.0.0.1:7545
 	
 	// Connection to provider
-	const provider : ethers.providers.JsonRpcProvider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:7545");
+	const provider : ethers.providers.JsonRpcProvider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!);
 
 	// Our wallet
 	const wallet : ethers.Wallet = new ethers.Wallet(
-		"61e90184fe27bf29c3dff1c75bc9eebff22c2398e38874fa7a5a3abefaef2ea5",
+		process.env.PRIVATE_KEY!,
 		provider
 	)
+	// const encryptedJson = fs.readFileSync("./.encryptedKey.json", "utf8")
+	// let wallet = ethers.Wallet.fromEncryptedJsonSync(encryptedJson, process.env.PRIVATE_KEY_PASSWORD)
+
+	// wallet = await wallet.connect(provider)
 
 	const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");
 
@@ -39,21 +44,24 @@ async function main() : Promise<void> {
 
 	console.log("\nInteracting with contract")
 
+	console.log(`Cotract Addrress: ${contract.address}`);
+
 	const currentFavoriteNumber = await contract.retrive();
 	console.log(`Current favorite number is ${currentFavoriteNumber.toString()}`)
-
-	const transactionResponse = await contract.store("7")
+	
+	const transactionResponse = await contract.store("77")
 	const transactionReceipt2 = await transactionResponse.wait(1)
 	const updatedFavoriteNumber = await contract.retrive();
 	console.log(`Updated favorite number is: ${updatedFavoriteNumber}`)
-
+	// console.log(process.env.PRIVATE_KEY)
+	
 	
 }
 
 main()
 .then(() => process.exit(0))
 .catch((error) => {
-	console.error(error);
-	process.exit(1);
+	console.error(error)
+	process.exit(1)
 })
 

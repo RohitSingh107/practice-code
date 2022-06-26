@@ -41,45 +41,18 @@ var fs = require("fs-extra");
 require("dotenv/config");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var provider, wallet, abi, binary, contractFactory, contract, transactionReceipt, currentFavoriteNumber, transactionResponse, transactionReceipt2, updatedFavoriteNumber;
+        var wallet, encryptedJsonKey;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    provider = new ethers_1.ethers.providers.JsonRpcProvider(process.env.RPC_URL);
-                    wallet = new ethers_1.ethers.Wallet(process.env.PRIVATE_KEY, provider);
-                    abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");
-                    binary = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.bin", "utf8");
-                    contractFactory = new ethers_1.ethers.ContractFactory(abi, binary, wallet);
-                    console.log("Deploying, Please wait");
-                    return [4 /*yield*/, contractFactory.deploy()
-                        // console.log(contract)
-                    ];
+                    console.log(process.env.PRIVATE_KEY);
+                    console.log(process.env.PRIVATE_KEY_PASSWORD);
+                    wallet = new ethers_1.ethers.Wallet(process.env.PRIVATE_KEY);
+                    return [4 /*yield*/, wallet.encrypt(process.env.PRIVATE_KEY_PASSWORD, process.env.PRIVATE_KEY)];
                 case 1:
-                    contract = _a.sent();
-                    return [4 /*yield*/, contract.deployTransaction.wait(1)];
-                case 2:
-                    transactionReceipt = _a.sent();
-                    console.log("here is Deployement transaction (transaction response): ");
-                    console.log(contract.deployTransaction);
-                    console.log("Here is transaction receipt");
-                    console.log(transactionReceipt);
-                    console.log("lets depliy with only transaction data!");
-                    console.log("\nInteracting with contract");
-                    console.log("Cotract Addrress: ".concat(contract.address));
-                    return [4 /*yield*/, contract.retrive()];
-                case 3:
-                    currentFavoriteNumber = _a.sent();
-                    console.log("Current favorite number is ".concat(currentFavoriteNumber.toString()));
-                    return [4 /*yield*/, contract.store("77")];
-                case 4:
-                    transactionResponse = _a.sent();
-                    return [4 /*yield*/, transactionResponse.wait(1)];
-                case 5:
-                    transactionReceipt2 = _a.sent();
-                    return [4 /*yield*/, contract.retrive()];
-                case 6:
-                    updatedFavoriteNumber = _a.sent();
-                    console.log("Updated favorite number is: ".concat(updatedFavoriteNumber));
+                    encryptedJsonKey = _a.sent();
+                    console.log(encryptedJsonKey);
+                    fs.writeFileSync("./.encryptedKey.json", encryptedJsonKey);
                     return [2 /*return*/];
             }
         });
