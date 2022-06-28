@@ -6,6 +6,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
+import "./tasks/block-number"
 
 dotenv.config();
 
@@ -35,15 +36,26 @@ const config: HardhatUserConfig = {
 		url: process.env.RINKEBY_RPC_URL,
 		accounts: [process.env.PRIVATE_KEY!],
 		chainId: 4,
+	},
+
+	localhost: {
+		url: "http://127.0.0.1:8545/",
+		// accounts: "Thanks Hardhat"
+		chainId: 4,
 	}
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
     currency: "USD",
+	outputFile: "gas-report.txt",
+	noColors: true,
+	coinmarketcap: process.env.COINMARKETCAP_API_KEY,
+	token: "MATIC"
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
+  
 };
 
 export default config;

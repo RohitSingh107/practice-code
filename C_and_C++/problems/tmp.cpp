@@ -1,44 +1,225 @@
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
+
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <complex>
+#include <fstream>
+#include <initializer_list>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <queue>
+#include <random>
+#include <set>
+#include <stack>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
 using namespace std;
 
-#define int long long
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> p32;
+typedef pair<ll, ll> p64;
+typedef pair<double, double> pdd;
+typedef vector<ll> v64;
+typedef vector<int> v32;
+typedef vector<vector<int>> vv32;
+typedef vector<vector<ll>> vv64;
+typedef vector<vector<p64>> vvp64;
+typedef vector<p64> vp64;
+typedef vector<p32> vp32;
 
+ll MOD = 998244353;
+double eps = 1e-12;
 
-int solve()
-{
-    const int M = 1e9 + 7;
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
-    vector<vector<int>> dp(n + 1, vector<int>(7)); // dp[i][j] -> number of subsequences of first i elements that have remainder j on dividing by 7
-    dp[0][0] = 1;                                  // empty subsequence has remainder 0, as its value is 0
-    for (int i = 0; i < n; i++)
-    {
-        int l = (int)to_string(a[i]).size();
-		std::cout <<"l is " << l << std::endl;
-        int p = 1;
-        while (l--)
-            p *= 10; // p is 10^l, implement it differently (by using your own logic) to escape plag
-        for (int j = 0; j < 7; j++)
-        {
-            int use = (j * p + a[i]) % 7;                     // if we use ith element then use will be the new remainder
-            dp[i + 1][j] = (dp[i + 1][j] + dp[i][j]) % M;     // don't use ith element
-            dp[i + 1][use] = (dp[i + 1][use] + dp[i][j]) % M; // use ith element
-        }
-    }
-    cout << (dp[n][0] - 1 + M) % M << '\n'; // subtract one (empty subsequences are not counted).
-    return 0;
+#define inp32(v) \
+    for (int &i32 : v) cin >> i32
+#define inp64(v) \
+    for (ll & i64 : v) cin >> i64
+#define forn(i, e) for (ll i = 0; i < e; i++)
+#define forsn(i, s, e) for (ll i = s; i < e; i++)
+#define rforn(i, s) for (ll i = s; i >= 0; i--)
+#define rforsn(i, s, e) for (ll i = s; i >= e; i--)
+#define ln "\n"
+#define el endl
+#define dbg(x) cout << #x << " = " << x << ln
+#define mp make_pair
+#define pb push_back
+#define fi first
+#define se second
+#define INF 2e18
+#define fast_cin()                    \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL)
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((ll)(x).size())
+
+int cnt = 1;
+
+template <class T>
+void toConsole(T content) {
+    cout << "Log No. " << cnt << " | " << content << endl;
+    cnt++;
 }
 
-signed main()
-{
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    int t = 1;
-    cin >> t;
-    while (t--)
+template <class T>
+void toConsole(vector<T> v) {
+    cout << "Log No. " << cnt << " | <vector> ";
+    for (auto e : v) {
+        std::cout << e << " ";
+    }
+    std::cout << std::endl;
+    cnt++;
+}
+
+template <class T>
+void toConsole(set<T> s) {
+    cout << "Log No. " << cnt << " | <set> ";
+    for (auto e : s) {
+        std::cout << e << " ";
+    }
+    std::cout << std::endl;
+    cnt++;
+}
+
+template <class T>
+void toConsole(unordered_set<T> us) {
+    cout << "Log No. " << cnt << " | <unordered_set>";
+    for (auto e : us) {
+        std::cout << e << " ";
+    }
+    std::cout << std::endl;
+    cnt++;
+}
+
+template <class KEY, class VAL>
+void toConsole(map<KEY, VAL> m) {
+    cout << "Log No. " << cnt << " | <map>" << endl;
+    for (auto p : m) {
+        std::cout << "\t\t" << p.first << " " << p.second << std::endl;
+    }
+    std::cout << "\t</map>" << std::endl;
+    cnt++;
+}
+
+template <class KEY, class VAL>
+void toConsole(unordered_map<KEY, VAL> m) {
+    cout << "Log No. " << cnt << " | <unordered_map>" << endl;
+    for (auto p : m) {
+        std::cout << "\t\t" << p.first << " " << p.second << std::endl;
+    }
+    std::cout << "\t</unordered_map>" << std::endl;
+    cnt++;
+}
+
+template <class T>
+void toConsole(std::initializer_list<T> list) {
+    cout << "Log No. " << cnt << " | ";
+    for (auto e : list) {
+        std::cout << e << " ";
+    }
+    std::cout << std::endl;
+    cnt++;
+}
+
+int ans = 0;
+
+/* int currcon = 0; */
+
+void dfs(bool parent, int currcon, int m, int vertex, vector<vector<int>> graph, vector<bool> visited, vector<int> cats_location) {
+    /* std::cout << "Here1 " << vertex << " " << graph[vertex].size() << std::endl; */
+
+    /* std::cout << "Entered " << vertex << " " << currcon << " " << ans << std::endl; */
+
+    if (vertex == 1) parent = true;
+    if (cats_location[vertex] and parent) {
+        currcon++;
+    }
+    if (graph[vertex].size() == 0 and currcon <= m) {
+        ans++;
+    }
+
+    std::cout << "Entered " << vertex << " " << parent << " " << currcon << " " << ans << std::endl;
+
+    if (cats_location[vertex]) {
+        parent = true;
+    } else {
+        parent = false;
+        currcon = 0;
+    }
+
+    if (currcon > m) {
+        return;
+    }
+
+    visited[vertex] = true;
+    for (auto child : graph[vertex]) {
+        /* std::cout << "child is " << child << std::endl; */
+        /* leaf = false; */
+
+        if (visited[child]) continue;
+
+        dfs(parent, currcon, m, child, graph, visited, cats_location);
+    }
+    /* std::cout << "Here3 " << vertex << " " << graph[vertex].size() << std::endl; */
+}
+
+void solve() {
+    int n, m;
+    cin >> n >> m;
+
+    vector<int> cats_location(n + 1);
+    vector<vector<int>> graph(n + 1);
+    vector<bool> visited(n);
+
+    for (int i = 1; i < n + 1; i++) {
+        cin >> cats_location[i];
+    }
+
+    for (int i = 1; i < n - 1 + 1; i++) {
+        int u, v;
+        cin >> u >> v;
+
+        graph[u].push_back(v);
+    }
+    dfs(false, 0, m, 1, graph, visited, cats_location);
+    std::cout << ans << std::endl;
+    std::cout << graph[1].size() << std::endl;
+    // std::cout << graph[3][0] << " " << graph[3][1] << std::endl;
+    /* for(auto v : graph){ */
+    /* 	for(auto i : v){ */
+    /* 		std::cout << i << " "; */
+    /* 	} */
+    /* 	std::cout << std::endl; */
+    /* } */
+
+    // for (auto v : graph) {
+    //     for (auto i : v) {
+    //         cout << i << " ";
+    //     }
+    //     cout << endl;
+    // }
+}
+
+int32_t main() {
+    // #ifndef ONLINE_JUDGE
+    // freopen("/home/rohits/mydata/code/C_and_C++/competitive_programming/inputf.in", "r", stdin);
+    // freopen("/home/rohits/mydata/code/C_and_C++/competitive_programming/outputf.in", "w", stdout);
+    // #endif
+
+    fast_cin();
+    ll t = 1;
+    while (t--) {
         solve();
+    }
     return 0;
-} 
+}
