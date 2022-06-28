@@ -1,3 +1,4 @@
+import {BigNumber, ContractTransaction} from "ethers";
 import { ethers, run, network } from "hardhat";
 
 async function main() {
@@ -18,20 +19,29 @@ async function main() {
 		await simpleStorage.deployTransaction.wait(6)
 		await verify(simpleStorage.address, [])
 	}
-	
+
+	const currentValue : BigNumber = await simpleStorage.retrive()
+	console.log(`Current value is: ${currentValue}`)
+
+
+	// Updating currentValue
+	const transactionResponse : ContractTransaction = await simpleStorage.store(7)
+	await transactionResponse.wait(1)
+	const updatedValue : BigNumber = await simpleStorage.retrive()
+	console.log(updatedValue)
 }
 
 
-async function verify(contractAddress : any, args: any){
+const verify = async (contractAddress : string, args: any[]) => {
 	console.log("Verifying Contract...")
 	try {
-		await run("verify: verify", {
+		await run("verify:verify", { // No space after colon
 			address: contractAddress,
 			constructorArguments: args,
 		})
 	} catch(e: any){
-		if(e.message.toLowerCase().include("already verified")){
-			console.log("Already verified")
+		if(e.message.toLowerCase().includes("already verified")){
+			console.log("Already verified!")
 		}
 		else{
 			console.log(e)
