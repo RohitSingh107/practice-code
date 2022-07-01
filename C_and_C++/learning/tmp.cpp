@@ -5,10 +5,24 @@
 
 using namespace std;
 
+template<typename t>
+void print(t s, t e){
+	for(; s < e; s++){
+		std::cout << *s << std::endl;
+	}
+}
+
+
 int32_t main(){
-	
-	std::cout << "Nothing " << 7 / 5 * 3 + -7 << std::endl;
+
+	vector<int> v = {1, 2, 3, 4, 5};
+
+	int i = 1;
+
+	print(v.begin() + i, v.end());
 
 	return 0;
 }
+
+
 

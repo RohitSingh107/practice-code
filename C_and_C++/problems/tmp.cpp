@@ -1,225 +1,132 @@
-#pragma GCC optimize("Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
-
-#include <algorithm>
-#include <chrono>
-#include <cmath>
-#include <complex>
-#include <fstream>
-#include <initializer_list>
-#include <iomanip>
-#include <iostream>
-#include <list>
-#include <map>
-#include <queue>
-#include <random>
-#include <set>
-#include <stack>
-#include <string>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 
 using namespace std;
 
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> p32;
-typedef pair<ll, ll> p64;
-typedef pair<double, double> pdd;
-typedef vector<ll> v64;
-typedef vector<int> v32;
-typedef vector<vector<int>> vv32;
-typedef vector<vector<ll>> vv64;
-typedef vector<vector<p64>> vvp64;
-typedef vector<p64> vp64;
-typedef vector<p32> vp32;
-
-ll MOD = 998244353;
-double eps = 1e-12;
-
-#define inp32(v) \
-    for (int &i32 : v) cin >> i32
-#define inp64(v) \
-    for (ll & i64 : v) cin >> i64
-#define forn(i, e) for (ll i = 0; i < e; i++)
-#define forsn(i, s, e) for (ll i = s; i < e; i++)
-#define rforn(i, s) for (ll i = s; i >= 0; i--)
-#define rforsn(i, s, e) for (ll i = s; i >= e; i--)
-#define ln "\n"
-#define el endl
-#define dbg(x) cout << #x << " = " << x << ln
-#define mp make_pair
-#define pb push_back
-#define fi first
-#define se second
-#define INF 2e18
-#define fast_cin()                    \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);                    \
-    cout.tie(NULL)
-#define all(x) (x).begin(), (x).end()
-#define sz(x) ((ll)(x).size())
-
-int cnt = 1;
-
-template <class T>
-void toConsole(T content) {
-    cout << "Log No. " << cnt << " | " << content << endl;
-    cnt++;
-}
-
-template <class T>
-void toConsole(vector<T> v) {
-    cout << "Log No. " << cnt << " | <vector> ";
-    for (auto e : v) {
-        std::cout << e << " ";
+template <typename v>
+class mapnode {
+   public:
+    string key;
+    v value;
+    mapnode* next;
+    mapnode(string key, v value) {
+        this->key = key;
+        xadsdd AA CVACAc x / ffffd.c, dfggfmfjdm xm this->value = value;
+        next = NULL;
     }
-    std::cout << std::endl;
-    cnt++;
-}
-
-template <class T>
-void toConsole(set<T> s) {
-    cout << "Log No. " << cnt << " | <set> ";
-    for (auto e : s) {
-        std::cout << e << " ";
+    ~mapnode() {
+        delete next;
     }
-    std::cout << std::endl;
-    cnt++;
-}
+};
 
-template <class T>
-void toConsole(unordered_set<T> us) {
-    cout << "Log No. " << cnt << " | <unordered_set>";
-    for (auto e : us) {
-        std::cout << e << " ";
-    }
-    std::cout << std::endl;
-    cnt++;
-}
+template <typename v>
+class ourmap {
+    mapnode<v>* buckets;
+    int count;
+    int bucketsize;
 
-template <class KEY, class VAL>
-void toConsole(map<KEY, VAL> m) {
-    cout << "Log No. " << cnt << " | <map>" << endl;
-    for (auto p : m) {
-        std::cout << "\t\t" << p.first << " " << p.second << std::endl;
-    }
-    std::cout << "\t</map>" << std::endl;
-    cnt++;
-}
-
-template <class KEY, class VAL>
-void toConsole(unordered_map<KEY, VAL> m) {
-    cout << "Log No. " << cnt << " | <unordered_map>" << endl;
-    for (auto p : m) {
-        std::cout << "\t\t" << p.first << " " << p.second << std::endl;
-    }
-    std::cout << "\t</unordered_map>" << std::endl;
-    cnt++;
-}
-
-template <class T>
-void toConsole(std::initializer_list<T> list) {
-    cout << "Log No. " << cnt << " | ";
-    for (auto e : list) {
-        std::cout << e << " ";
-    }
-    std::cout << std::endl;
-    cnt++;
-}
-
-int ans = 0;
-
-/* int currcon = 0; */
-
-void dfs(bool parent, int currcon, int m, int vertex, vector<vector<int>> graph, vector<bool> visited, vector<int> cats_location) {
-    /* std::cout << "Here1 " << vertex << " " << graph[vertex].size() << std::endl; */
-
-    /* std::cout << "Entered " << vertex << " " << currcon << " " << ans << std::endl; */
-
-    if (vertex == 1) parent = true;
-    if (cats_location[vertex] and parent) {
-        currcon++;
-    }
-    if (graph[vertex].size() == 0 and currcon <= m) {
-        ans++;
+   public:
+    ourmap() {
+        bucketsize = 5;
+        count = 0;
+        buckets = new mapnode<v>*[bucketsize];
     }
 
-    std::cout << "Entered " << vertex << " " << parent << " " << currcon << " " << ans << std::endl;
-
-    if (cats_location[vertex]) {
-        parent = true;
-    } else {
-        parent = false;
-        currcon = 0;
+   private:
+    int getbucketindex(string key) {
+        int hash = 0;
+        int coeff = 1;
+        for (int i = key.length() - 1; i >= 0; i--) {
+            hash += key[i] * coeff;
+            coeff %= bucketsize;
+            coeff *= 37;
+            coeff %= bucketsize;
+        }
+        return hash % bucketsize;
     }
 
-    if (currcon > m) {
-        return;
+   public:
+    void insert(string key, v value) {
+        int bucketindex = getbucketindex(key);
+        mapnode<v>* head = buckets[bucketindex];
+        while (head != NULL) {
+            if (head->key == key) {
+                head->value = value;
+                return;
+            }
+            head = head->next;
+        }
+
+        head = buckets[bucketindex];
+        mapnode<v>* node = new mapnode<v>(key, value);
+        node->next = head;
+        buckets[bucketindex] = node;
+        count++;
+    }
+    v remove(string key) {
+        int bucketindex = getbucketindex(key);
+        mapnode<v>* head = buckets[bucketindex];
+        mapnode<v>* pre = NULL;
+        while (head != NULL) {
+            if (head->key == key) {
+                if (pre == NULL) {
+                    buckets[bucketindex] = head->next;
+                } else {
+                    pre->next = head->next;
+                }
+                v value = head->value;
+                head->next = NULL;
+                delete head;
+                count--;
+                return value;
+            }
+            pre = head;
+            head = head->next;
+        }
+        return 0;
+    }
+    v getvalue(string key) {
+        int bucketindex = getbucketindex(key);
+        mapnode<v>* head = buckets[bucketindex];
+        while (head != NULL) {
+            if (head->key == key) {
+                return head->value;
+            }
+            head = head->next;
+        }
+        return 0;
+    }
+    int size() {
+        return count;
     }
 
-    visited[vertex] = true;
-    for (auto child : graph[vertex]) {
-        /* std::cout << "child is " << child << std::endl; */
-        /* leaf = false; */
-
-        if (visited[child]) continue;
-
-        dfs(parent, currcon, m, child, graph, visited, cats_location);
+    ~ourmap() {
+        for (int i = 0; i < bucketsize; i++) {
+            delete buckets[i];
+        }
+        delete[] buckets;
     }
-    /* std::cout << "Here3 " << vertex << " " << graph[vertex].size() << std::endl; */
-}
+};
 
-void solve() {
-    int n, m;
-    cin >> n >> m;
+int main() {
+    cout << "Code runs" << endl;
 
-    vector<int> cats_location(n + 1);
-    vector<vector<int>> graph(n + 1);
-    vector<bool> visited(n);
+    mapnode<int> mn("Rohit", 78);
 
-    for (int i = 1; i < n + 1; i++) {
-        cin >> cats_location[i];
-    }
+    ourmap<int> om;
 
-    for (int i = 1; i < n - 1 + 1; i++) {
-        int u, v;
-        cin >> u >> v;
+    // om.insert("Rohit", 7);
 
-        graph[u].push_back(v);
-    }
-    dfs(false, 0, m, 1, graph, visited, cats_location);
-    std::cout << ans << std::endl;
-    std::cout << graph[1].size() << std::endl;
-    // std::cout << graph[3][0] << " " << graph[3][1] << std::endl;
-    /* for(auto v : graph){ */
-    /* 	for(auto i : v){ */
-    /* 		std::cout << i << " "; */
-    /* 	} */
-    /* 	std::cout << std::endl; */
-    /* } */
+    // om.insert("Singh", 63);
 
-    // for (auto v : graph) {
-    //     for (auto i : v) {
-    //         cout << i << " ";
-    //     }
-    //     cout << endl;
-    // }
-}
+    // int x = om.getvalue("Rohit");
 
-int32_t main() {
-    // #ifndef ONLINE_JUDGE
-    // freopen("/home/rohits/mydata/code/C_and_C++/competitive_programming/inputf.in", "r", stdin);
-    // freopen("/home/rohits/mydata/code/C_and_C++/competitive_programming/outputf.in", "w", stdout);
-    // #endif
+    // cout << x << endl;
 
-    fast_cin();
-    ll t = 1;
-    while (t--) {
-        solve();
-    }
+    // cout << om.size() << endl;
+
+    // cout << om.remove("Rohit") << endl;
+
+    // cout << om.size() << endl;
+
     return 0;
 }
