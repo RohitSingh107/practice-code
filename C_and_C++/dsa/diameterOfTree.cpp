@@ -8,7 +8,7 @@ using namespace std;
 
 const int N = 1e5;
 
-int depth[N], height[N];
+int depth[N];
 
 vector<vector<int>> graph(N);
 
@@ -17,11 +17,9 @@ void dfs(int vertex, int parent){
 	for(int child : graph[vertex]){
 		if(child == parent) continue;
 		
-		depth[child] = depth[vertex] +1;
-		
+		depth[child] = depth[vertex] + 1;
 		dfs(child, vertex);
 
-		height[vertex] = max(height[vertex], height[child] + 1);
 	}
 }
 
@@ -39,9 +37,29 @@ int32_t main(){
 
 	dfs(1, 0);
 
+	int mx_depth = -1;
+	int mx_d_note;
+
 	for(int i =1; i <=n; i++){
-		std::cout << depth[i] << " " << height[i] << std::endl;
+		if(mx_depth < depth[i]){
+			mx_depth = depth[i];
+			mx_d_note = i;
+		}
+		depth[i] = 0;
 	}
+
+	dfs(mx_d_note, 0);
+	mx_depth = -1;
+	for(int i =1; i <=n; i++){
+		if(mx_depth < depth[i]){
+			mx_depth = depth[i];
+		}
+	}
+
+	std::cout << mx_depth << std::endl;
+
+
+
 	
 
 	return 0;

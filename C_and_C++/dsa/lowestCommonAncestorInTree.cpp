@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <vector>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
@@ -8,20 +9,33 @@ using namespace std;
 
 const int N = 1e5;
 
-int depth[N], height[N];
+/* int depth[N]; */
+int par[N];
 
 vector<vector<int>> graph(N);
 
-void dfs(int vertex, int parent){
+vector<int> path(int v){
+	vector<int> ans;
+	while (v != -1) {
+		ans.push_back(v);
+		v = par[v];
+	}
+
+	reverse(ans.begin(), ans.end());
+	return ans;
+}
+
+
+void dfs(int vertex, int parent = -1){
+
+	par[vertex] = parent;
 
 	for(int child : graph[vertex]){
 		if(child == parent) continue;
 		
-		depth[child] = depth[vertex] +1;
-		
+		/* depth[child] = depth[vertex] + 1; */
 		dfs(child, vertex);
 
-		height[vertex] = max(height[vertex], height[child] + 1);
 	}
 }
 
@@ -37,12 +51,30 @@ int32_t main(){
 		graph[v2].push_back(v1);
 	}
 
-	dfs(1, 0);
-
-	for(int i =1; i <=n; i++){
-		std::cout << depth[i] << " " << height[i] << std::endl;
-	}
+	dfs(1);
 	
+	int x =9, y = 11;
+	vector<int> path_x = path(x);
+	vector<int> path_y = path(y);
+
+	int mn_ln = min(path_x.size(), path_y.size());
+	int lca = -1;
+
+	for(int i = 0; i< mn_ln; i++){
+		if(path_x[i] == path_y[i]){
+			lca = path_x[i];
+		}
+		else{
+			break;
+		}
+	}
+
+	std::cout << lca << std::endl;
+
+
+
+
+
 
 	return 0;
 }

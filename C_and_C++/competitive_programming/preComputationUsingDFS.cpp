@@ -8,20 +8,26 @@ using namespace std;
 
 const int N = 1e5;
 
-int depth[N], height[N];
+
+int subTree[N];
+
+int evenCount[N];
 
 vector<vector<int>> graph(N);
 
 void dfs(int vertex, int parent){
 
+	subTree[vertex] += vertex;
+	if(vertex % 2 == 0) evenCount[vertex]++;
+ 
 	for(int child : graph[vertex]){
 		if(child == parent) continue;
 		
-		depth[child] = depth[vertex] +1;
-		
 		dfs(child, vertex);
 
-		height[vertex] = max(height[vertex], height[child] + 1);
+		subTree[vertex] += subTree[child];
+		evenCount[vertex] += evenCount[child];
+
 	}
 }
 
@@ -40,9 +46,8 @@ int32_t main(){
 	dfs(1, 0);
 
 	for(int i =1; i <=n; i++){
-		std::cout << depth[i] << " " << height[i] << std::endl;
+		std::cout << subTree[i] << " " << evenCount[i] << std::endl;
 	}
-	
 
 	return 0;
 }
