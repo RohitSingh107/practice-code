@@ -1,7 +1,7 @@
 import Control.Monad
 import qualified Data.ByteString.Char8 as BS
 import Data.Maybe
-import Data.Vector.Unboxed ((!))
+import qualified Data.Vector as V
 import qualified Data.Vector.Unboxed as VU
 
 readInt = fst . fromJust . BS.readInteger
@@ -17,15 +17,26 @@ getIntList = readIntList <$> BS.getLine
 
 --     dp = 0 : fmap (\i -> minimum [dp !! (i - j) + jumpCost (i - j) i | j <- [1 .. k], i - j >= 0]) [1 .. n]
 
+-- solve :: Int -> Int -> VU.Vector Int -> Int
+-- solve n k v = dp ! (n -1)
+--   where
+--     dp = VU.constructN n f
+--     f u
+--       | i == 0 = 0
+--       | i > 0 = VU.minimum . VU.map (\(d, h) -> d + abs (h - v ! i)) . VU.drop (i - k) $ VU.zip u v
+--       where
+--         i = VU.length u
+
 solve :: Int -> Int -> VU.Vector Int -> Int
-solve n k v = dp ! (n -1)
+solve n k h = dp V.! (n - 1)
   where
-    dp = VU.constructN n f
-    f u
-      | i == 0 = 0
-      | i > 0 = VU.minimum . VU.map (\(d, h) -> d + abs (h - v ! i)) . VU.drop (i - k) $ VU.zip u v
-      where
-        i = VU.length u
+    cost i j = abs (h VU.! i - h VU.! j)
+    dp :: V.Vector Int
+    dp = V.generate n recur
+    recur :: Int -> Int
+    recur 0 = 0
+    -- recur i = minimum $ map jump [(i - 1), (i - 2) .. (max 0 (i - k))]
+    recur i = minimum [dp V.! (i - j) + cost (i - j) i | j <- [1 .. k], i - j >= 0]
 
 main = do
   [n, k] <- getIntList
