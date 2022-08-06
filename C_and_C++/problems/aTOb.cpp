@@ -3,96 +3,91 @@
 #pragma GCC optimize("Ofast")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #pragma GCC optimize("unroll-loops")
-#include <bits/stdc++.h>  
+#include <bits/stdc++.h>
 
 using namespace std;
 
 int cnt = 0;
 
-bool dfs(long long int b, long long int d, long long int current, string &s){
+bool dfs(long long int b, long long int d, long long int current, string &s) {
 
-	if(current > d){
-		return false;
-	}
-	if(current == d){
-		s = to_string(current) + " " + s;
-		cnt++;
-		return true;
-	}
+  if (current > d) {
+    return false;
+  }
+  if (current == d) {
+    s = to_string(current) + " " + s;
+    cnt++;
+    return true;
+  }
 
-	if(dfs(b, d, current * 2, s)){
-		s = to_string(current) + " " + s;
-		cnt++;
-		return true;
-	}
+  if (dfs(b, d, current * 2, s)) {
+    s = to_string(current) + " " + s;
+    cnt++;
+    return true;
+  }
 
-	if(dfs(b, d, current * 10 + 1, s)){
-		s = to_string(current) + " " + s;
-		cnt++;
-		return true;
-	}
+  if (dfs(b, d, current * 10 + 1, s)) {
+    s = to_string(current) + " " + s;
+    cnt++;
+    return true;
+  }
 
-	return false;
+  return false;
 }
 
-int32_t main(){
-	
-	/* int b, d; */
-	/* cin>>b>>d; */
+int32_t main() {
 
-	/* string ans = to_string(d); */
+  /* int b, d; */
+  /* cin>>b>>d; */
 
-	/* int cnt = 0; */
-	
-	/* bool check = true; */
+  /* string ans = to_string(d); */
 
-/* 	while (d > 0 and d > b) { */
-/* 		if(b == d){ */
-/* 			break; */
-/* 		} */
+  /* int cnt = 0; */
 
-/* 		if(d & 1){ */
-/* 			if(d % 10 != 1){ */
-/* 				check = false; */
-/* 				break; */
-/* 			} */
-/* 			d = d / 10; */
-/* 		} */
-/* 		else{ */
-/* 			d = d/2; */
-/* 		} */
-/* 		cnt++; */
-/* 		ans = to_string(d) + " " + ans; */
-/* 	} */
+  /* bool check = true; */
 
-/* 	if(d == b and check){ */
-/* 		std::cout << "YES" << std::endl; */
-/* 		std::cout << cnt + 1 << std::endl; */
-/* 		std::cout << ans << std::endl; */
-/* 	} */
-/* 	else{ */
-/* 		std::cout << "NO" << std::endl; */
-/* 	} */
+  /* 	while (d > 0 and d > b) { */
+  /* 		if(b == d){ */
+  /* 			break; */
+  /* 		} */
 
-	long long b, d, c;
-	cin>>b>>d;
+  /* 		if(d & 1){ */
+  /* 			if(d % 10 != 1){ */
+  /* 				check = false; */
+  /* 				break; */
+  /* 			} */
+  /* 			d = d / 10; */
+  /* 		} */
+  /* 		else{ */
+  /* 			d = d/2; */
+  /* 		} */
+  /* 		cnt++; */
+  /* 		ans = to_string(d) + " " + ans; */
+  /* 	} */
 
-	c = b;
+  /* 	if(d == b and check){ */
+  /* 		std::cout << "YES" << std::endl; */
+  /* 		std::cout << cnt + 1 << std::endl; */
+  /* 		std::cout << ans << std::endl; */
+  /* 	} */
+  /* 	else{ */
+  /* 		std::cout << "NO" << std::endl; */
+  /* 	} */
 
-	string s = "";
+  long long b, d, c;
+  cin >> b >> d;
 
-	if(dfs(b, d, c, s)){
-		std::cout << "YES" << std::endl;
-		std::cout << cnt << std::endl;
-		std::cout << s << std::endl;
-	}
-	else{
-		std::cout << "NO" << std::endl;
-	}
+  c = b;
 
+  string s = "";
 
+  if (dfs(b, d, c, s)) {
+    std::cout << "YES" << std::endl;
+    std::cout << cnt << std::endl;
+    std::cout << s << std::endl;
+  } else {
+    std::cout << "NO" << std::endl;
+  }
 
-
-	return 0;
+  return 0;
 }
-

@@ -5,6 +5,7 @@
 /* #pragma GCC optimize("unroll-loops") */
 #include <bits/stdc++.h>
 #include <cstring>
+#include <vector>
 
 using namespace std;
 
@@ -31,6 +32,19 @@ int maximuxValue(int remaiming_length, vector<int> price) {
   return dp[remaiming_length] = maxVal;
 }
 
+int rodCuttingBottomUp(int n, int price[]) {
+  int dp[n + 1];
+  for (int i = 0; i <= n; i++) {
+    dp[i] = 0;
+  }
+  for (int i = 1; i <= n; i++) {
+    for (int j = 0; j < i; j++) {
+      dp[i] = max(dp[i], price[j] + dp[i - j - 1]);
+    }
+  }
+  return dp[n];
+}
+
 int cutRod(int price[], int n) {
   vector<int> prices(price, price + n);
 
@@ -45,6 +59,7 @@ int32_t main() {
   int price[] = {1, 5, 8, 9, 10, 17, 17, 20};
 
   std::cout << cutRod(price, 8) << std::endl;
+  std::cout << rodCuttingBottomUp(8, price) << std::endl;
 
   cerr << "Run Time: " << (double)(clock() - _t) / CLOCKS_PER_SEC << " seconds";
   return 0;
