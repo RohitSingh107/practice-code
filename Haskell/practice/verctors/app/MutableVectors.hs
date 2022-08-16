@@ -9,10 +9,10 @@
 
 module MutableVectors where
 
-import Control.Monad (replicateM_)
-import Data.Vector.Unboxed (freeze)
+import           Control.Monad               (replicateM_)
+import           Data.Vector.Unboxed         (freeze)
 import qualified Data.Vector.Unboxed.Mutable as V
-import System.Random (randomRIO)
+import           System.Random               (randomRIO)
 
 main :: IO ()
 main = do

@@ -33,7 +33,7 @@ int32_t main() {
   clock_t _t = clock();
   memset(dp, -1, sizeof(dp));
 
-  long long int a = 100;
+  long long int a = 50;
 
   cout << a << "th fibonacci no is " << fibonacci(a);
   std::cout << "\n\nTotal recursive calls with dp: " << c << std::endl;

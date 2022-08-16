@@ -1,70 +1,51 @@
-// Program to convert Roman
-// Numerals to Numbers
+#include <cstring>
+#include <memory>
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
+
 using namespace std;
+int dp[100][100][100];
+int c = 0;
+int longestCommonSubstring(int i, int j, int count, string s1, string s2) {
 
-// This function returns value
-// of a Roman symbol
-int value(char r) {
-        if (r == 'I')
-        return 1;
-    if (r == 'V')
-        return 5;
-    if (r == 'X')
-        return 10;
-    if (r == 'L')
-        return 50;
-    if (r == 'C')
-        return 100;
-    if (r == 'D')
-        return 500;
-    if (r == 'M')
-        return 1000;
+  /* std::cout << "i is " << i << " j is " << j << " count is " << count */
+  /* << std::endl; */
+  if (i < 0 || j < 0) {
+    return count;
+  }
 
-    return -1;
+  if (dp[i][j][count] != -1) {
+    return dp[i][j][count];
+  }
+
+  c++;
+  int ans = count;
+
+  if (s1[i] == s2[j]) {
+    ans = max(ans, longestCommonSubstring(i - 1, j - 1, count + 1, s1, s2));
+  }
+
+  ans = max(ans, longestCommonSubstring(i, j - 1, 0, s1, s2));
+  ans = max(ans, longestCommonSubstring(i - 1, j, 0, s1, s2));
+
+  return dp[i][j][count] = ans;
 }
 
-// Returns decimal value of
-// roman numaral
-int romanToDecimal(string& str) {
-    // Initialize result
-    int res = 0;
+int32_t main() {
+  clock_t _t = clock();
+  memset(dp, -1, sizeof(dp));
 
-    // Traverse given input
-    for (int i = 0; i < str.length(); i++) {
-        // Getting value of symbol s[i]
-        int s1 = value(str[i]);
+  string s1 = "wqabsrmpmo";
+  string s2 = "qbsrmpcnp";
 
-        if (i + 1 < str.length()) {
-            // Getting value of symbol s[i+1]
-            int s2 = value(str[i + 1]);
+  /*   string s1 = "pan"; */
+  /*   string s2 = "pean"; */
+  std::cout << longestCommonSubstring(s1.size() - 1, s2.size() - 1, 0, s1, s2)
+            << std::endl;
+  std::cout << "Total recursive calls with dp:  " << c << std::endl;
 
-            // Comparing both values
-            if (s1 >= s2) {
-                // Value of current symbol
-                // is greater or equal to
-                // the next symbol
-                res = res + s1;
-            } else {
-                // Value of current symbol is
-                // less than the next symbol
-                res = res + s2 - s1;
-                i++;
-            }
-        } else {
-            res = res + s1;
-        }
-    }
-    return res;
-}
-
-// Driver Code
-int main() {
-    // Considering inputs given are valid
-    string str = "MCMIV";
-    // string str = "MMMIM";
-    cout << "Integer form of Roman Numeral is "
-         << romanToDecimal(str) << endl;
-
-    return 0;
+  cerr << "Run Time: " << (double)(clock() - _t) / CLOCKS_PER_SEC << " seconds";
+  return 0;
 }

@@ -25,7 +25,7 @@ BinaryTreeNode<int> *input() {
     BinaryTreeNode<int> *front = pendingnodes.front();
     pendingnodes.pop();
     int leftdata;
-    cout << "Enter left child of " << front->data;
+    cout << "Enter left child of " << front->data << ": ";
     cin >> leftdata;
     if (leftdata != -1) {
       BinaryTreeNode<int> *leftchild = new BinaryTreeNode<int>(leftdata);
@@ -33,7 +33,7 @@ BinaryTreeNode<int> *input() {
       front->left = leftchild;
     }
     int rightdata;
-    cout << "enter the right child of " << front->data;
+    cout << "enter the right child of " << front->data << ": ";
     cin >> rightdata;
     if (rightdata != -1) {
       BinaryTreeNode<int> *rightchild = new BinaryTreeNode<int>(rightdata);
@@ -41,27 +41,40 @@ BinaryTreeNode<int> *input() {
       front->right = rightchild;
     }
   }
+  std::cout << "Reached here" << std::endl;
   return root;
 }
+
 void print(BinaryTreeNode<int> *root) {
-  queue<BinaryTreeNode<int> *> pendingnodes;
-  pendingnodes.push(root);
-  pendingnodes.push(NULL);
+  queue<pair<BinaryTreeNode<int> *, int>> pendingnodes;
+  pendingnodes.push({root, 0});
+
+  int prev_lev = -1;
+
   while (!pendingnodes.empty()) {
-    BinaryTreeNode<int> *front = pendingnodes.front();
+    BinaryTreeNode<int> *front = pendingnodes.front().first;
+    int level = pendingnodes.front().second;
     pendingnodes.pop();
-    if (front == NULL && pendingnodes.empty())
-      break;
-    else if (front == NULL && !pendingnodes.empty()) {
-      cout << endl;
-      pendingnodes.push(NULL);
+    if (front == NULL) {
       continue;
     }
-    cout << front->data << " ";
-    pendingnodes.push(front->left);
-    pendingnodes.push(front->right);
+
+    if (level == prev_lev) {
+      std::cout << " ";
+    } else {
+      std::cout << std::endl;
+    }
+
+    cout << front->data;
+
+    prev_lev = level;
+
+    pendingnodes.push({front->left, level + 1});
+    pendingnodes.push({front->right, level + 1});
   }
+  std::cout << endl << std::endl;
 }
+
 int main() {
   BinaryTreeNode<int> *root = input();
   print(root);

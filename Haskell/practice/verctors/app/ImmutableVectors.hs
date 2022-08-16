@@ -1,9 +1,9 @@
 #!/usr/bin/env stack
 module ImmutableVectors where
 
-import Data.Vector.Unboxed ((!), (//))
+import           Data.Vector.Unboxed ((!), (//))
 import qualified Data.Vector.Unboxed as V
-import System.Random (randomRIO)
+import           System.Random       (randomRIO)
 
 loop v 0 = return v
 loop v rest = do
