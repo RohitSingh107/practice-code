@@ -1,4 +1,4 @@
-fn fib(n: usize, dp: &mut [i32; 100010]) -> i32 {
+fn fib(n: usize, dp : &mut Vec<i32>) -> i32 {
     if n == 1 {
         return 1;
     }
@@ -16,9 +16,11 @@ fn fib(n: usize, dp: &mut [i32; 100010]) -> i32 {
 }
 
 fn main() {
-    let n: usize = 46;
+    let n: usize = 10;
 
-    let mut dp: [i32; 100010] = [-1; 100010];
+    // let mut dp: [i32; 100010] = [-1; 100010];
+    // let mut dp : Vec<i32> = Vec::new();
+    let mut dp : Vec<i32> = vec![-1; 10010];
 
     let res = fib(n, &mut dp);
 
