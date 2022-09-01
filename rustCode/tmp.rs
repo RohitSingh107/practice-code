@@ -1,23 +1,18 @@
-fn main(){
+// use proconio::input;
+extern crate proconio;
+use proconio::input;
+use std::io;
 
-    let mut v = Vec::new();
-
-    v.push(5);
-
-
-    if v.contains(&5) {
-        println!("found");
-    } else {
-        println!("not found");
+fn main() {
+    println!("Give the inputs: ");
+    input! {
+        n: u8,
+        // m: u32,
+        // l: i32,
     }
-    
-    v.push(2);
-    v.push(4);
-    v.push(3);
-    v.push(5);
 
-    println!("{:?}", v);
-
-    println!(" 2nd element is {}", v[2]);
-
+    println!("Here: ");
+    // now you can use n, m and l as variable.
+    // println!("{} {} {}", n, m, l);
+    println!("{} ", n);
 }
