@@ -1,83 +1,47 @@
+#include <climits>
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 using namespace std;
-template <typename T> class BinaryTreeNode {
-public:
-  T data;
-  BinaryTreeNode<int> *left;
-  BinaryTreeNode<int> *right;
-  BinaryTreeNode(T data) {
-    this->data = data;
-    left = NULL;
-    right = NULL;
+
+int jumpT(int i, int n, vector<int> &jumps, vector<int> &dp) {
+  // write your code here
+  if (i == n - 1) {
+    return 0;
   }
-};
-BinaryTreeNode<int> *input() {
-  int rootdata;
-  cout << "Enter root data ";
-  cin >> rootdata;
-  if (rootdata == -1)
-    return NULL;
-  BinaryTreeNode<int> *root = new BinaryTreeNode<int>(rootdata);
-  queue<BinaryTreeNode<int> *> pendingnodes;
-  pendingnodes.push(root);
-  while (!pendingnodes.empty()) {
-    BinaryTreeNode<int> *front = pendingnodes.front();
-    pendingnodes.pop();
-    int leftdata;
-    cout << "Enter left child of " << front->data << ": ";
-    cin >> leftdata;
-    if (leftdata != -1) {
-      BinaryTreeNode<int> *leftchild = new BinaryTreeNode<int>(leftdata);
-      pendingnodes.push(leftchild);
-      front->left = leftchild;
-    }
-    int rightdata;
-    cout << "enter the right child of " << front->data << ": ";
-    cin >> rightdata;
-    if (rightdata != -1) {
-      BinaryTreeNode<int> *rightchild = new BinaryTreeNode<int>(rightdata);
-      pendingnodes.push(rightchild);
-      front->right = rightchild;
-    }
+  if (i >= n) {
+    return 1e9;
   }
-  std::cout << "Reached here" << std::endl;
-  return root;
+  int ans = 1e9;
+
+  for (int j = 1; j <= jumps[i]; j++) {
+    ans = min(ans, jumpT(i + j, n, jumps, dp) + 1);
+  }
+
+  return ans;
 }
 
-void print(BinaryTreeNode<int> *root) {
-  queue<pair<BinaryTreeNode<int> *, int>> pendingnodes;
-  pendingnodes.push({root, 0});
+int32_t main() {
+  clock_t _t = clock();
 
-  int prev_lev = -1;
+  int n;
+  cin >> n;
 
-  while (!pendingnodes.empty()) {
-    BinaryTreeNode<int> *front = pendingnodes.front().first;
-    int level = pendingnodes.front().second;
-    pendingnodes.pop();
-    if (front == NULL) {
-      continue;
-    }
+  vector<int> jumps(n);
 
-    if (level == prev_lev) {
-      std::cout << " ";
-    } else {
-      std::cout << std::endl;
-    }
-
-    cout << front->data;
-
-    prev_lev = level;
-
-    pendingnodes.push({front->left, level + 1});
-    pendingnodes.push({front->right, level + 1});
+  for (int i = 0; i < n; i++) {
+    /* std::cout << "i is " << i << std::endl; */
+    cin >> jumps[i];
   }
-  std::cout << endl << std::endl;
-}
 
-int main() {
-  BinaryTreeNode<int> *root = input();
-  print(root);
+  vector<int> dp(n + 1, 0);
 
+  int ans = jumpT(0, n, jumps, dp);
+
+  std::cout << ans << std::endl;
+
+  cerr << "Run Time: " << (double)(clock() - _t) / CLOCKS_PER_SEC << " seconds";
   return 0;
 }
