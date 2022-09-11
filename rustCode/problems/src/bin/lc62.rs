@@ -5,10 +5,12 @@ fn f(i: usize, j: usize, dp: &mut Vec<Vec<i32>>) -> i32 {
 
     // if i < 0 || j < 0 {
     if i == 0 {
-        return f(0, j - 1, dp);
+        dp[i][j] = f(0, j - 1, dp);
+        return dp[i][j];
     }
     if j == 0 {
-        return f(i - 1, 0, dp);
+        dp[i][j] =f(i - 1, 0, dp);
+        return dp[i][j];
     }
 
     if dp[i][j] != -1 {
