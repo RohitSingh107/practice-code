@@ -1,33 +1,31 @@
+fn dfs(v: usize, is_connected: &Vec<Vec<i32>>, visited: &mut Vec<bool>) {
+    visited[v] = true;
 
-fn dfs(i : usize, j : usize, is_connected : &Vec<Vec<i32>>, visited : &mut Vec<Vec<bool>> ){
-
-
-
+    for i in 0..(is_connected.len()) {
+        if is_connected[v][i] == 1 {
+            if !visited[i] {
+                dfs(i, is_connected, visited);
+            }
+        }
+    }
 }
 
 fn find_circle_num(is_connected: Vec<Vec<i32>>) -> i32 {
 
-    let mut c = 0;
-
     let m = is_connected.len();
-    let n = is_connected[0].len();
 
-    let mut visited : Vec<Vec<bool>> = vec![ vec![false ; n+1]; m+1];
-
-    for i in 0..m {
-        for j in 0..n {
-
-            if !visited[i][j] {
-                dfs(i,j, &is_connected, &mut visited);
-                c = c+1;
-            }
-
+    let mut c = 0;
+    let mut visited: Vec<bool> = vec![false; m + 1];
+    for v in 0..(m) {
+        if !visited[v] {
+            dfs(v, &is_connected, &mut visited);
+            c = c + 1;
         }
     }
     return c;
-        
 }
 
 fn main() {
-
+    let is_connected = vec![vec![1, 0, 0], vec![0, 1, 0], vec![0, 0, 1]];
+    println!("{}", find_circle_num(is_connected));
 }
