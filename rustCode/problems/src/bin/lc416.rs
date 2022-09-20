@@ -33,7 +33,17 @@ fn f(i: usize, target: i32, nums: &Vec<i32>, dp: &mut Vec<Vec<i32>>) -> bool {
 fn can_partition(nums: Vec<i32>) -> bool {
     let n = nums.len();
 
-    let k = 12;
+    let mut k = 0;
+
+    for i in 0..n {
+        k += nums[i];
+    }
+
+    if k & 1 == 1 {
+        return false;
+    }
+
+    k = k / 2;
 
     // // TopDown Recursion
     // let mut dp: Vec<Vec<i32>> = vec![vec![-1; k as usize + 1]; n + 1];
@@ -63,17 +73,14 @@ fn can_partition(nums: Vec<i32>) -> bool {
         }
     }
 
-    for i in 0..n {
-        for j in 0..(k as usize + 1) {
-            print!("{}\t", dp[i][j]);
-        }
-        print!("\n");
-    }
-
     return dp[n - 1][k as usize];
 }
 
 fn main() {
-    let nums = vec![3,2,7];
+    // let nums = vec![1, 5, 11, 5];
+    let nums = vec![1, 5, 10, 6];
+    // let nums = vec![1, 2, 5];
+    // let nums = vec![1,2,3,5];
+
     println!("{}", can_partition(nums));
 }

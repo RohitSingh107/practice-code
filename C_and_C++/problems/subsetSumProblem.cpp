@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int dp[205][20005];
+int dp[205][100005];
 
 bool subsetSum(int ind, int sum, vector<int> &nums) {
 
