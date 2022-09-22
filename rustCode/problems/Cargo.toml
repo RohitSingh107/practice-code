@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 proconio = "0.4.3"
+queues = "1.0.2"
