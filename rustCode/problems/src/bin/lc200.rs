@@ -1,5 +1,3 @@
-// extern crate queues;
-// use queues::*;
 use std::collections::VecDeque;
 
 fn bfs(source: (usize, usize), grid: &Vec<Vec<char>>, visited: &mut Vec<Vec<bool>>) {
