@@ -1,65 +1,62 @@
-#include <algorithm>
 /* #include <vector> */
 /* #pragma GCC optimize("Ofast") */
 /* #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma") */
 /* #pragma GCC optimize("unroll-loops") */
 #include <bits/stdc++.h>
-#include <cstring>
-#include <vector>
 
 using namespace std;
 
-int dp[1005];
+int maximuxValue(int i, int rl, int price[], vector<vector<int>> &dp) {
 
-int maximuxValue(int remaiming_length, vector<int> price) {
-
-  /* if (remaiming_length < 0) { */
-  /*   return 0; */
-  /* } */
-
-  if (dp[remaiming_length] != -1) {
-    return dp[remaiming_length];
+  if (i == 0) {
+    return rl * price[0];
   }
 
-  int maxVal = 0;
-
-  for (int i = 1; i <= price.size(); i++) {
-    if (remaiming_length - i >= 0)
-      maxVal =
-          max(maxVal, maximuxValue(remaiming_length - i, price) + price[i - 1]);
+  if (dp[i][rl] != -1) {
+    return dp[i][rl];
   }
 
-  return dp[remaiming_length] = maxVal;
-}
+  // subtracting 1 because rod length starts from 1 not 0;
+  if (rl - i - 1 < 0) {
+    return dp[i][rl] = maximuxValue(i - 1, rl, price, dp) + 0;
+  }
 
-int rodCuttingBottomUp(int n, int price[]) {
-  int dp[n + 1];
-  for (int i = 0; i <= n; i++) {
-    dp[i] = 0;
-  }
-  for (int i = 1; i <= n; i++) {
-    for (int j = 0; j < i; j++) {
-      dp[i] = max(dp[i], price[j] + dp[i - j - 1]);
-    }
-  }
-  return dp[n];
+  return dp[i][rl] = max(maximuxValue(i, rl - i - 1, price, dp) + price[i],
+                         maximuxValue(i - 1, rl, price, dp) + 0);
 }
 
 int cutRod(int price[], int n) {
-  vector<int> prices(price, price + n);
 
-  memset(dp, -1, sizeof(dp));
+  /*   // TopDown Recursion */
+  /*   vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1)); */
+  /*   return maximuxValue(n - 1, n, price, dp); */
 
-  return maximuxValue(n, prices);
+  // BottomUp Tabulation
+  vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+  for (int i = 0; i < n; i++) {
+    for (int rl = 0; rl <= n; rl++) {
+      if (i == 0) {
+        dp[0][rl] = rl * price[0];
+        continue;
+      }
+      if (rl - i - 1 < 0) {
+        dp[i][rl] = dp[i - 1][rl];
+        continue;
+      }
+
+      dp[i][rl] = max(dp[i][rl - 1 - i] + price[i], dp[i - 1][rl]);
+    }
+  }
+  return dp[n - 1][n];
 }
 
 int32_t main() {
   clock_t _t = clock();
 
   int price[] = {1, 5, 8, 9, 10, 17, 17, 20};
+  /* int price[] = {3, 5, 8, 9, 10, 17, 17, 20}; */
 
   std::cout << cutRod(price, 8) << std::endl;
-  std::cout << rodCuttingBottomUp(8, price) << std::endl;
 
   cerr << "Run Time: " << (double)(clock() - _t) / CLOCKS_PER_SEC << " seconds";
   return 0;
