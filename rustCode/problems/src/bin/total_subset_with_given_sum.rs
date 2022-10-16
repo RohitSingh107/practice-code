@@ -29,8 +29,8 @@ fn num_subseq(nums: Vec<i32>, target: i32) -> i32 {
 
 fn main(){
 
-    let target = 9;
-    let nums = vec![3,5,6,7];
+    let target = 6;
+    let nums = vec![1,2,3,3];
 
     println!("{}", num_subseq(nums, target));
 
