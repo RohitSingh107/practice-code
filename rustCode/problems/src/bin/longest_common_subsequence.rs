@@ -22,12 +22,12 @@ fn longest_common_subsequence(text1: String, text2: String) -> i32 {
         }
     }
 
-    // for v in dp.iter() {
-    //     for k in v.iter() {
-    //         print!("{} ", k);
-    //     }
-    //     println!("");
-    // }
+    for v in dp.iter() {
+        for k in v.iter() {
+            print!("{} ", k);
+        }
+        println!("");
+    }
 
  
 
@@ -35,8 +35,9 @@ fn longest_common_subsequence(text1: String, text2: String) -> i32 {
 }
 
 fn main() {
-    let text1 = String::from("aggtab");
-    let text2 = String::from("gxtxayb");
-
+    // let text1 = String::from("aggtab");
+    // let text2 = String::from("gxtxayb");
+    let text1 = String::from("abcba");
+    let text2 = String::from("abcbcba");
     println!("{}", longest_common_subsequence(text1, text2));
 }

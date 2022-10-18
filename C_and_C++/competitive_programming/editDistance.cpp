@@ -1,4 +1,3 @@
-#include <algorithm>
 #pragma GCC optimize("Ofast")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #pragma GCC optimize("unroll-loops")
@@ -86,10 +85,11 @@ int32_t main() {
 
   /* string s1 = "a"; */
   /* string s2 = "b"; */
-  std::cout << editDistanceTopDown(s1.size() - 1, s2.size() - 1, s1, s2)
+  std::cout << "Top Down: "
+            << editDistanceTopDown(s1.size() - 1, s2.size() - 1, s1, s2)
             << std::endl;
 
-  std::cout << editDistanceBottomUp(s1, s2) << std::endl;
+  std::cout << "Bottom Up: " << editDistanceBottomUp(s1, s2) << std::endl;
 
   cerr << "Run Time: " << (double)(clock() - _t) / CLOCKS_PER_SEC << " seconds";
   return 0;
