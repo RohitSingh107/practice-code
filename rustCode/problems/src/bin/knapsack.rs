@@ -37,10 +37,14 @@ fn main() {
     //     w : usize,
     //     items : [(i64, i64) ; n],
     // }
+
     let n = 6;
     let w = 15;
     let items = vec![(6,5), (5,6), (6,4), (6,6), (3,5), (7,2)];
 
+    // let n = 3;
+    // let w = 50;
+    // let items = vec![(10,60), (20,100), (30,120)];
     // TopDown Recursion
     let mut dp: Vec<Vec<i64>> = vec![vec![-1; w + 1]; n + 1];
     println!("TopDown Recursion: {}", knapsack(n - 1, w, &items, &mut dp));
@@ -52,20 +56,32 @@ fn main() {
             if i == 0 {
                 if j as i64 >= items[0].0 {
                     dp[i][j] = items[0].1;
+                    // println!("i is {}, j is {}, dp is {}",i,j, dp[i][j]);
                     continue;
                 }
                 dp[i][j] = 0;
+                // println!("i is {}, j is {}, dp is {}",i,j, dp[i][j]);
                 continue;
             }
             if (j as i64) < (items[i].0) {
                 dp[i][j] = dp[i - 1][j] + 0;
+                // println!("i is {}, j is {}, dp is {}",i,j, dp[i][j]);
                 continue;
             }
             dp[i][j] = max(
                 dp[i - 1][j - items[i].0 as usize] + items[i].1,
                 dp[i-1][j] + 0,
             );
+            // println!("i is {}, j is {}, dp is {}",i,j, dp[i][j]);
         }
     }
+
+    // for i in 0..n {
+    //     for j in 0..=w {
+    //         print!("{} ", dp[i][j]);
+    //     }
+    //     println!("");
+    // }
+
     println!("BottomUp Tabulation: {}", dp[n - 1][w]);
 }
