@@ -1,0 +1,50 @@
+#!/usr/bin/bash
+
+echo "Hello Bash Scripting"
+
+cat << someVariable
+this is line
+it is another line
+someVariable
+
+count=10
+
+# if (( $count < 10 ))
+if [ $count -lt 10 ]
+then
+  echo "Condition is true"
+elif [ $count -eq 10 ]
+then
+  echo "It's equal"
+  
+else
+  echo "Condition is false"
+fi
+
+age=10
+
+if [ "$age" -gt 10 ] && [ "$age" -lt 40 ]
+then
+  echo "Age is correct"
+else
+  echo "Age is not correct"
+fi
+
+if [[ "$age" -ge 10 && "$age" -lt 40 ]]
+then
+  echo "Age is correct"
+else
+  echo "Age is not correct"
+fi
+
+
+if [ "$age" -gt 12 -o "$age" -lt 40 ]
+then
+  echo "Age is correct"
+else
+  echo "Age is not correct"
+fi
+
+ 
+
+
