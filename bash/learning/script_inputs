@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+echo "$0" "$1" "$2" "$3" 
+
+
+args=("$@") # Array
+
+echo "${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" 
+echo "$@" # All elements of the array
+echo $# # Length of array
+
+for (( i = 0; i < $#; i++ )); do
+  echo "${args[i]}"
+done
+
+while read -r line; do
+  echo "$line"
+done < "${1:-/dev/stdin}"

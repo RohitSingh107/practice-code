@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+ls -la 1>file2.txt 2>file3.txt 
+
+ld >& file4.txt

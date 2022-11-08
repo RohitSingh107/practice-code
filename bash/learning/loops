@@ -1,0 +1,47 @@
+#!/usr/bin/bash
+
+number=1
+
+while [[ $number -le 10 ]]; do
+  echo "$number"
+  number=$(( number + 1 ))
+  
+done
+
+number=1
+
+until [[ $number -ge 10 ]]; do
+  echo "$number"
+  number=$(( number + 1 ))
+  
+done
+
+
+for i in "a" "b" "c" "d" "e"
+do
+  echo "$i"
+done
+
+for i in {21..-10..2}
+do
+  echo "$i"
+done
+
+for i in {a..z}
+do
+  echo "$i"
+done
+
+for (( i=1; i<50; i++ ))
+do
+
+  if [[ $i -eq 2 || $i -eq 4 ]]; then
+    continue
+    
+  fi
+
+  if [[ $i -gt 5 ]]; then
+    break
+  fi
+  echo "$i"
+done

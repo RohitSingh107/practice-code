@@ -1,0 +1,10 @@
+total 28
+drwxr-xr-x 2 rohits rohits 4096 Nov  8 16:29 .
+drwxr-xr-x 3 rohits rohits 4096 Nov  7 22:27 ..
+-rw-r--r-- 1 rohits rohits    0 Nov  8 16:33 file2.txt
+-rw-r--r-- 1 rohits rohits    0 Nov  8 16:33 file3.txt
+-rw-r--r-- 1 rohits rohits   21 Nov  8 16:25 file.txt
+-rwxr-xr-x 1 rohits rohits  614 Nov  8 15:32 helloscript
+-rwxr-xr-x 1 rohits rohits  485 Nov  8 15:57 loops
+-rwxr-xr-x 1 rohits rohits  312 Nov  8 16:24 script_inputs
+-rwxr-xr-x 1 rohits rohits   66 Nov  8 16:33 script_output
