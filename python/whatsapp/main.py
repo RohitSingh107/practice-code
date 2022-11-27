@@ -1,10 +1,15 @@
 from selenium import webdriver
+from selenium.webdriver.common import options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
-driver = webdriver.Chrome()
+options = webdriver.ChromeOptions()
+options.add_argument("/home/rohits/.config/google-chrome/Default")
+
+driver = webdriver.Chrome(options=options)
 print(driver)
+
 
 driver.get("https://web.whatsapp.com/")
 
@@ -45,8 +50,3 @@ if __name__ == "__main__":
 
 
 
-# <span dir="auto" title="Garbage " class="ggj6brxn gfz4du6o r7fjleex g0rxnol2 lhj4utae le5p0ye3 l7jjieqr i0jNr">Garbage </span>
-
-# <div tabindex="-1" class="p3_M1"><div class="g0rxnol2"><div class="fd365im1 to2l77zo bbv8nyr4 mwp4sxku gfz4du6o ag5g9lrv" contenteditable="true" role="textbox" spellcheck="true" title="Type a message" data-testid="conversation-compose-box-input" data-tab="10" data-lexical-editor="true" style="user-select: text; white-space: pre-wrap; word-break: break-word;"><p class="selectable-text copyable-text"><br></p></div><div class="lhggkp7q qq0sjtgm jxacihee qzp46edm b9fczbqn bze30y65 jgi8eev7 t35qvd06 m62443ks rkxvyd19 c5h0bzs2">Type a message</div></div></div>
-
-# tvf2evcx oq44ahr5 lb5m6g5c svlsagor p2rjqpw5 epia9gcq
