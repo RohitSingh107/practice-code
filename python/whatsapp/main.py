@@ -4,10 +4,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
-options = webdriver.ChromeOptions()
-options.add_argument("/home/rohits/.config/google-chrome/Default")
+# options = webdriver.ChromeOptions()
+# options.add_argument("/home/rohits/.config/google-chrome/Default")
 
-driver = webdriver.Chrome(options=options)
+# driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome()
 print(driver)
 
 
