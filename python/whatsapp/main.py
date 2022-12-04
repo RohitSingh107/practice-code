@@ -24,9 +24,9 @@ def msg():
     # message = input("Enter your message to group/user: ")
 
 
-    name = "Garbage "
-    message = "Thanks for cooperating"
-    username = "@Abhishek Yadav IT MAIT"
+    name = "TIT's"
+    message = "Rohan loop break mat kar"
+    username = "@Rohan Malik Mait"
 
     count = int(input("Enter the message count: "))
 
@@ -37,7 +37,7 @@ def msg():
 
     for _ in range(count):
         send_message(text_box, message, username)
-        time.sleep(0.5)
+        time.sleep(0.2)
     
 if __name__ == "__main__":
     
