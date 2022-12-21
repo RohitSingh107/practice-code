@@ -30,6 +30,7 @@ class Solution:
         # return mcm(1, N- 1, arr, dp)
 
         # BottomUp Tabulation
+        # print(f"N is {N}")
         dp = [[0 for _ in range(N)] for _ in range(N)]
         for i in range(N-1, 0, -1):
             for j in range(i + 1, N): ## starting from 1 will also work
@@ -37,6 +38,7 @@ class Solution:
                     continue
                 dp[i][j] = sys.maxsize
                 for k in range(i, j):
+                    # print(f"i is {i}, j is {j}, k is {k}")
                     cost = dp[i][k] + dp[k+1][j] + (arr[i-1] * arr[k] * arr[j])
                     dp[i][j] = min(dp[i][j], cost)
         # print(dp)

@@ -51,8 +51,8 @@ fn longest_common_substring(text1: String, text2: String) -> String {
 }
 
 fn main() {
-    let text1 = String::from("abcdyuioo");
-    let text2 = String::from("afbcdpyuio");
+    let text1 = String::from("wfycpc");
+    let text2 = String::from("cpcyfw");
 
     println!("{}", longest_common_substring(text1, text2));
 }
