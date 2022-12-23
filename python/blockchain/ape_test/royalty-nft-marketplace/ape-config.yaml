@@ -1,0 +1,15 @@
+name: royalty-nft-marketplace
+
+dependencies:
+  - name: OpenZeppelin
+    github: OpenZeppelin/openzeppelin-contracts
+    # version: 4.8.0
+
+plugins:
+  - name: solidity
+  - name: polygon
+  - name: template
+
+solidity:
+  import_remapping:
+    - "@openzeppelin=OpenZeppelin"
