@@ -1,0 +1,10 @@
+name: ape-nft-project
+plugins:
+  - name: solidity
+dependencies:
+  - name: OpenZeppelin
+    github: OpenZeppelin/openzeppelin-contracts
+
+solidity:
+  import_remapping:
+    - "@openzeppelin=OpenZeppelin"
