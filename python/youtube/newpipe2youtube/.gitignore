@@ -1,3 +1,5 @@
 .venv
 cs.json
+cs2.json
 newpipe.db
+ __pycache__

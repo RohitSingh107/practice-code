@@ -11,7 +11,7 @@ def getYoutube():
 
     scopes = ["https://www.googleapis.com/auth/youtube"]
 
-    client_secrets_file = "cs.json"
+    client_secrets_file = "cs2.json"
 
 # Get credentials and create an API client
     flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file, scopes)

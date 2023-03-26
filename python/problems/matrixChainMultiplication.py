@@ -53,8 +53,6 @@ class Solution:
 
 
 
-
-
 def main():
     solution = Solution()
     arr = [40,20,30,10,30]
