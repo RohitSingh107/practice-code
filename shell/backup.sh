@@ -22,6 +22,8 @@ backup() {
 
 main() {
 
+  echo "First Argument: $1"
+
 
   backup "$@"
 
