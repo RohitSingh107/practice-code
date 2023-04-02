@@ -12,7 +12,7 @@ class MyServer:
         else:
             self.sock = sock
 
-    def bind_and_listen(self, host = "", port = 65432):
+    def bind_and_listen(self, host = "", port = 9999):
         try:
 
             print(f"Binding socket to port: {port} and host: {host}")
@@ -40,7 +40,7 @@ class MyServer:
             print(f"Error Establishing connection to client: {str(e)}")
 
 
-    def __send_commands(self):
+    def __send_commands(self, bufSize = 2048):
 
         while True:
             cmd = input()
@@ -51,11 +51,11 @@ class MyServer:
                 sys.exit()
 
             if len(str.encode(cmd)) == 0:
-                pass
+                continue
 
             self.conn.send(str.encode(cmd))
 
-            client_response = str(self.conn.recv(1024), "utf-8")
+            client_response = str(self.conn.recv(bufSize), "utf-8")
             print(client_response, end="")
 
 
@@ -65,7 +65,6 @@ def main():
     s.bind_and_listen()
     s.accept()
 
-            
 
 
 
