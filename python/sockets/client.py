@@ -17,24 +17,8 @@ class MalwareClient:
     def connect(self, host = "192.168.1.108", port = 9999):
         self.sock.connect((host, port))
 
-    # def send(self, msg):
-    #     totalsent = 0
-    #     while totalsent < MSGLEN:
-    #         sent = self.sock.send(msg[totalsent:])
-    #         if sent == 0:
-    #             raise RuntimeError("socket connection broken")
-    #         totalsent = totalsent + sent
-
-    def receive(self, bufSize = 2048):
-        # chunks = []
-        # bytes_recd = 0
-        # while bytes_recd < MSGLEN:
-        #     chunk = self.sock.recv(min(MSGLEN - bytes_recd, 2048))
-        #     if chunk == b'':
-        #         raise RuntimeError("socket connection broken")
-        #     chunks.append(chunk)
-        #     bytes_recd = bytes_recd + len(chunk)
-        # return b''.join(chunks)
+    def receive(self, bufSize = 20480):
+  
         while True:
             data = self.sock.recv(bufSize)
 

