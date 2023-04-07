@@ -9,7 +9,7 @@ from typing_extensions import TypeAlias
 
 NUMBER_OF_THREADS = 2
 JOB_NUMBER = [1, 2]
-
+queue = Queue()
 _RetAddress: TypeAlias = List[Any]
 
 
@@ -34,6 +34,7 @@ class MyServer:
             self.sock.bind((host, port))
             # the number of unaccepted connections that the system will allow before refusing new connections. If not specified, a default reasonable value is chosen.
             self.sock.listen(5)
+            print(f"Sockets binded and listening on port: {port}")
 
         except socket.error as e:
             print(f"Error binding socket: {str(e)}")
@@ -140,12 +141,38 @@ class MyServer:
             else:
                 print("Command not recognized")
 
+def work(s : MyServer):
+    while True:
+        x = queue.get()
+        if x == 1:
+            s.accept_connection()
+
+        if x == 2:
+            s.start_bunker()
+
+        
+        queue.task_done()
+
+
+def create_threads(s):
+    for _ in range(NUMBER_OF_THREADS):
+        t = threading.Thread(target=work, args=(s,))
+        t.daemon = True
+        t.start()
+
+def create_jobs():
+    for x in JOB_NUMBER:
+        queue.put(x)
+    queue.join()
+
 
 def main():
     s = MyServer()
-
     s.bind_and_listen()
-    s.accept_connection()
+
+    create_threads(s)
+    create_jobs()
+
 
 
 if __name__ == "__main__":
