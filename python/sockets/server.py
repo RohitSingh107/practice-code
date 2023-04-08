@@ -12,7 +12,7 @@ from typing_extensions import TypeAlias
 _RetAddress: TypeAlias = List[Any]
 
 
-class MyServer:
+class RedServer:
     """My Server for testing purposes
     """
 
@@ -152,7 +152,7 @@ class MyServer:
                 print("Command not recognized")
 
 
-def work(s: MyServer):
+def work(s: RedServer):
     while True:
         x = s.queue.get()
         if x == 1:
@@ -178,7 +178,7 @@ def create_jobs(s):
 
 
 def main():
-    s = MyServer()
+    s = RedServer()
     s.bind_and_listen()
 
     try:
