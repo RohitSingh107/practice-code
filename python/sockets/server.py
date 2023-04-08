@@ -7,9 +7,8 @@ import threading
 from typing import Tuple, List, Any
 from typing_extensions import TypeAlias
 
-NUMBER_OF_THREADS = 2
-JOB_NUMBER = [1, 2]
-queue = Queue()
+# NUMBER_OF_THREADS = 2
+# queue = Queue()
 _RetAddress: TypeAlias = List[Any]
 
 
@@ -24,7 +23,7 @@ class MyServer:
         else:
             self.sock = sock
 
-        # self.queue = Queue()
+        self.queue = Queue()
         self.all_connections: List[Tuple[socket.socket, _RetAddress]] = []
 
     def bind_and_listen(self, host="", port=55555):
@@ -155,27 +154,27 @@ class MyServer:
 
 def work(s: MyServer):
     while True:
-        x = queue.get()
+        x = s.queue.get()
         if x == 1:
             s.accept_connection()
 
         if x == 2:
             s.start_bunker()
 
-        queue.task_done()
+        s.queue.task_done()
 
 
 def create_threads(s):
-    for _ in range(NUMBER_OF_THREADS):
+    for _ in range(2): # NUMBER_OF_THREADS
         t = threading.Thread(target=work, args=(s,))
         t.daemon = True
         t.start()
 
 
-def create_jobs():
-    for x in JOB_NUMBER:
-        queue.put(x)
-    queue.join()
+def create_jobs(s):
+    for x in range(1,3):
+        s.queue.put(x)
+    s.queue.join()
 
 
 def main():
@@ -184,7 +183,10 @@ def main():
 
     try:
         create_threads(s)
-        create_jobs()
+        create_jobs(s)
+    except KeyboardInterrupt:
+        sys.exit(0)
+
     finally:
         if s.all_connections != []:
             for c in s.all_connections:
