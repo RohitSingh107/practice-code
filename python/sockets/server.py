@@ -26,7 +26,7 @@ class RedServer:
         self.queue = Queue()
         self.all_connections: List[Tuple[socket.socket, _RetAddress]] = []
 
-    def bind_and_listen(self, host="", port=55555):
+    def bind_and_listen(self, host="192.168.1.108", port=55555):
         try:
 
             print(f"Binding socket to port: {port} and host: {host}")
