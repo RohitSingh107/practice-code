@@ -28,7 +28,7 @@
     {
       packages.${system} = {
         myPackage = pkgs.callPackage ./. {};
-        default = self.packages.myPackage;
+        default = self.packages.${system}.myPackage;
       };
     };
 }

@@ -8,9 +8,14 @@
 
   src = ./src;
 
-  buildInput = [raylib];
+  buildInputs = [raylib];
   buildPhase = ''
-    ls
-    exit 1
+    gcc -c main.c
+    gcc main.o -o main
+    '';
+
+  installPhase = ''
+    mkdir -p $out/bin
+    mv main $out/bin/myPackage
     '';
 }
