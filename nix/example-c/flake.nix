@@ -27,7 +27,7 @@
     in
     {
       packages.${system} = {
-        myPackage = pkgs.screenfetch;
+        myPackage = pkgs.callPackage ./. {};
         default = self.packages.myPackage;
       };
     };
