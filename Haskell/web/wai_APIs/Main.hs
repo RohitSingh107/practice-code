@@ -3,7 +3,7 @@ import Network.Wai
 import Network.HTTP.Types
 import Network.Wai.Handler.Warp (run)
 import Data.Aeson
-import Data.Map (fromList)
+import Data.Map     (fromList)
 import qualified Data.ByteString.Lazy.Char8 as LBS
 -- import qualified Data.ByteString as BS
 
