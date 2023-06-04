@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Current Date and Time</title>
+    <script>
+      function displayDateTime() {
+        var currentDate = new Date();
+        var date = currentDate.toDateString();
+        var time = currentDate.toLocaleTimeString();
+
+        document.getElementById("date").innerHTML = "Current Date: " + date;
+        document.getElementById("time").innerHTML = "Current Time: " + time;
+      }
+
+      // Call the displayDateTime function every second
+      setInterval(displayDateTime, 1000);
+    </script>
+  </head>
+  <body>
+    <h1>Current Date and Time</h1>
+
+    <div id="date"></div>
+    <div id="time"></div>
+  </body>
+</html>
