@@ -10,21 +10,22 @@ class TrieNode():
         self.is_end = False
         self.children = {}
 
-    # def isContain(self, char) -> bool:
-    #     if char in self.children:
-    #         return True
-    #     return False
-    #
-    # def setEnd(self):
-    #     self.is_end = True
-    #
-    # def get(self, char):
-    #     return self.children[char]
-    #
-    # def put(self, char):
-    #     new_node = TrieNode(char)
-    #     self.children[char] = new_node
-    #     return new_node
+    def isContain(self, char) -> bool:
+        if char in self.children:
+            return True
+        return False
+
+    def setEnd(self):
+        self.is_end = True
+
+    def get(self, char):
+        return self.children[char]
+
+    def put(self, char):
+        new_node = TrieNode(char)
+        self.children[char] = new_node
+
+
 class Trie:
 
     def __init__(self):
@@ -34,21 +35,37 @@ class Trie:
 
         node = self.root
         for c in word:
-            if c in node.children:
-                node = node.children[c]
+            if node.isContain(c):
+                node = node.get(c)
             else:
-                new_node = TrieNode(c)
-                node.children[c] = new_node
-                node = new_node
+                # new_node = TrieNode(c)
+                # node.children[c] = new_node
+                # node = new_node
+                node.put(c)
+                node : TrieNode = node.get(c)
 
         node.is_end = True
 
 
 
     def search(self, word : str) -> bool:
-        pass
+        node = self.root
+        for c in word:
+            if node.isContain(c):
+                node : TrieNode = node.get(c)
+            else:
+                return False
+
+        return node.is_end
 
     def starts_with(self, prefix : str) -> bool:
-        pass
+        node = self.root
+        for c in prefix:
+            if node.isContain(c):
+                node : TrieNode = node.get(c)
+            else:
+                return False
+
+        return True
 
 
