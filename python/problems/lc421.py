@@ -1,15 +1,23 @@
+
+
+
 import collections
 
-class TrieNode:
-    def __init__(self, ch):
-        self.ch = ch
-        self.children = [None, None]
+
+# class TrieNode:
+#     def __init__(self, ch):
+#         self.ch = ch
+#         self.children = {}
+#
+#
 
 
+def trieNode():
+    return collections.defaultdict(trieNode)
 
 class Trie:
     def __init__(self):
-        self.root = TrieNode(-1)
+        self.root = trieNode()
 
     def insert(self, i):
 
@@ -17,13 +25,13 @@ class Trie:
 
         for b in range(32, -1, -1):
             bit = (i >> b) & 1
-            if node.children[bit]:
-                node = node.children[bit]
-            else:
-                new_node = TrieNode(bit)
-                node.children[bit] = new_node
-                node = new_node
-        # node.is_end = True
+            # if bit in node.children:
+            #     node = node.children[bit]
+            # else:
+            #     new_node = TrieNode(bit)
+            #     node.children[bit] = new_node
+            #     node = new_node
+            node = node[bit]
 
     def get_max(self, i):
         node = self.root
@@ -33,30 +41,12 @@ class Trie:
         for b in range(32, -1, -1):
             bit = (i >> b) & 1
 
-            if node.children[1- bit]:
+            if (1 - bit) in node:
                 maxNumber = maxNumber | (1 << b)
-                node = node.children[1 - bit]
+                node = node[1 - bit]
             else:
-                node = node.children[bit]
-
+                node = node[bit]
         return maxNumber
-
-
-def maxXOR(nums):
-    # Write your code here.   
-
-    trie = Trie()
-
-    for i in nums:
-        trie.insert(i)
-
-    ans = 0
-    for i in nums:
-        ans = max(ans, trie.get_max(i))
-        # print("ans is ", ans)
-
-    return ans
-
 
 
 class Solution(object):
@@ -79,15 +69,39 @@ class Solution(object):
                 else:
                     cur = cur[curBit]
             best = max(candidate, best)
-            # print("best is ", best)
         return best
+
+
+
+
+
+
+
+
+
+def maxXOR(nums):
+    # Write your code here.   
+
+    trie = Trie()
+
+    for i in nums:
+        trie.insert(i)
+
+    ans = 0
+    for i in nums:
+        ans = max(ans, trie.get_max(i))
+
+    return ans
+    
+
+
 
 def main():
     nums = [3,10,5,25,2,8]
-    # nums = [14,70,53,83,49,91,36,80,92,51,66,70]
+
     sol = Solution()
-    print("ans is ", maxXOR(nums))
     print("ans is ", sol.findMaximumXOR(nums))
+    print("ans is ", maxXOR(nums))
 
 if __name__ == "__main__":
     main()
