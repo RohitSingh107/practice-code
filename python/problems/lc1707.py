@@ -74,6 +74,7 @@ class Solution:
 
             if ins:
                 ans[queries_order[queries[q][1]]] = get_max(node, queries[q][0])
+                print("querieng ", queries[q][0])
             # else:
             #     ans[queries_order[queries[q][1]]] = -1
         return ans
