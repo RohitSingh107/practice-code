@@ -1,4 +1,6 @@
-import abc
+from collections import deque
+from treelib import Tree
+
 len = len
 
 
@@ -67,5 +69,29 @@ class Trie:
                 return False
 
         return True
+
+    def show(self):
+        node = self.root
+        q = deque([node])
+        tree = Tree()
+        tree.create_node(tag= 'root', identifier= node)
+        while q:
+            u = q.popleft()
+            for v in u.children.values():
+                q.append(v)
+                tree.create_node(tag = v.char, identifier= v, parent= u)
+        tree.show()
+
+
+def main():
+    t = Trie()
+    keys = ["the", "a", "there", "answer", "any", "bye", "their"]
+    for key in keys:
+        t.insert(key)
+    t.show()
+
+
+if __name__ == '__main__':
+    main()
 
 
