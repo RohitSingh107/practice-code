@@ -25,21 +25,7 @@ class WordDictionary:
 
         return self._search(node, word)
 
-        # for i in range(len(word)):
-        #     if word[i] == '.':
-        #         flag = False
-        #         
-        #         for ch in node.keys():
-        #             flag = flag | self.search(word[i:])
-        #
-        #         return flag
-        #     else:
-        #         if word[i] in node:
-        #             node = node[word[i]]
-        #         else:
-        #             return False
-        #
-        # return None in node
+ 
 
     def _search(self, node, word: str) -> bool:
         # print("word is ", word)
