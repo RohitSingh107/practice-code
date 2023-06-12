@@ -33,16 +33,13 @@ class WordDictionary:
 
         for i in range(len(word)):
             if word[i] == '.':
-                # print("here1")
-                flag = False
-                
-                for ch in node.keys():
-                    # print(type(node[ch]))
-                    flag = flag | self._search(node[ch], word[i+1:])
+                # flag = False
+                # for ch in node.keys():
+                #     # print(type(node[ch]))
+                #     flag = flag | self._search(node[ch], word[i+1:])
+                # return flag
 
-                # print("here2")
-
-                return flag
+                return any(self._search(node[ch], word[i+1:]) for ch in node.keys())
             else:
                 if word[i] in node:
                     node = node[word[i]]

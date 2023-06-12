@@ -1,4 +1,7 @@
 
+from collections import deque
+from treelib import Tree
+
 
 class TrieNode:
     def __init__(self, char):
@@ -47,6 +50,19 @@ class Trie:
                 return False
         return True
 
+    def show(self):
+        node = self.root
+
+        q = deque([node])
+
+        tree = Tree()
+        tree.create_node(tag= 'root', identifier= node)
+        while q:
+            u = q.popleft()
+            for v in u.children.values():
+                q.append(v)
+                tree.create_node(tag = v.char, identifier= v, parent= u)
+        tree.show()
 
 # Your Trie object will be instantiated and called as such:
 # obj = Trie()
@@ -62,6 +78,7 @@ def main():
     trie.startsWith("app")
     trie.insert("app")
     trie.search("app")
+    trie.show()
 
 if __name__ == "__main__":
     main()
