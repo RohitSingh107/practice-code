@@ -22,6 +22,8 @@ class Solution:
                 curr = 0
             ans = max(ans, curr)
             # print(f"curr is curr {curr}, i is {i}")
+        if ans == 0:
+            return max(nums)
         return ans
 
 
