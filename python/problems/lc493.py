@@ -31,11 +31,11 @@ def merge(nums : List[int], start : int, mid : int, end : int) -> int:
     ans = 0
 
     # i = start
-    # j = mid
-    # while i < mid and j < end:
-    #     while j < end and nums[i] > 2 * nums[j]:
-    #         j +=1
-    #     ans += j - mid
+    # r = mid
+    # while i < mid:
+    #     while r < end and nums[i] > 2 * nums[r]:
+    #         r +=1
+    #     ans += r - mid
     #     i += 1
     r = mid
     for i in range(start, mid):
@@ -51,9 +51,6 @@ def merge(nums : List[int], start : int, mid : int, end : int) -> int:
             tmp.append(nums[i])
             i += 1
         else:
-            # if nums[i] > 2 * nums[j]:
-                # ans += end - j
-                # print(f"i is {i}, j is {j}, {nums[i]}, {nums[j]}]")
             tmp.append(nums[j])
             j += 1
 
