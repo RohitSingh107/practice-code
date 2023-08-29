@@ -28,7 +28,7 @@ class Solution:
         
         n = len(nums)
 
-        ans = set()
+        ans = deque()
         
         nums = sorted(nums)
 
@@ -36,8 +36,8 @@ class Solution:
             if i > 0 and nums[i] == nums[i-1]:
                 continue
             for j in range(i+1, n):
-                # if nums[j] == nums[j-1]:
-                #     continue
+                if j > i + 1 and nums[j] == nums[j-1]:
+                    continue
                 k = j + 1
                 l = n -1
 
@@ -52,7 +52,7 @@ class Solution:
                         #     l -= 1
                     else:
                         # print(f"target is {target}")
-                        ans.add((nums[i], nums[j], nums[k], nums[l]))
+                        ans.append([nums[i], nums[j], nums[k], nums[l]])
                         k +=1
                         l -= 1
 
