@@ -1,6 +1,6 @@
 
 from collections import defaultdict
-
+from itertools import accumulate
 from functools import reduce
 from operator import xor
 
