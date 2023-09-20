@@ -21,7 +21,6 @@ class Solution:
                 leftMax = height[i]
 
             if leftMax > rightMax:
-                # while i < j and leftMax > rightMax:
                 while i < j:
                     if height[j] > rightMax:
                         rightMax = height[j]
