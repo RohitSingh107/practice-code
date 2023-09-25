@@ -41,14 +41,43 @@ class Solution:
 
         dp = [[-1 for _ in range(n)] for _ in range(m)]
 
+
+        mi = 0
+        mj = 0
+        mp = 0
+
         ans = 0
+
         for i in range(m):
             for j in range(n):
                 if dp[i][j] != -1:
                     ans = max(ans, dp[i][j])
                 else:
                     ans = max(ans, lip(i,j, matrix, m,n, dp))
-        print(dp)
+
+                if dp[i][j] > mp:
+                    mp = dp[i][j]
+                    mi = i
+                    mj = j
+
+     
+        # print(dp)
+        path = deque()
+        while mi >= 0 and mj>= 0 and mi < m and mj < n:
+            path.append(matrix[mi][mj])
+
+            if mi > 0 and dp[mi][mj] - dp[mi-1][mj] == 1:
+                mi -= 1
+            elif mj > 0 and dp[mi][mj] - dp[mi][mj-1] == 1:
+                mj -= 1
+            elif mj < n - 1 and dp[mi][mj] - dp[mi][mj+1] == 1:
+                mj += 1
+            elif mi < m -1 and dp[mi][mj] - dp[mi+1][mj] == 1:
+                mi += 1
+            else:
+                break
+        print("path is ", path)
+
         return ans
 
 
@@ -56,9 +85,10 @@ class Solution:
 
 
 def main():
-    matrix = [[9,9,4],[6,6,8],[2,1,1]]
+    # matrix = [[9,9,4],[6,6,8],[2,1,1]]
     # matrix = [[3,4,5],[3,2,6],[2,2,1]]
     # matrix = [[1,2]]
+    matrix = [[8,9,8],[7,4,3],[6,5,2]]
     solution = Solution()
     print(f"ans is {solution.longestIncreasingPath(matrix=matrix)}")
 
