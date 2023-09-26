@@ -2,34 +2,41 @@
 from typing import List, Deque, Tuple, Set
 from collections import deque
 # from itertools import combinations_with_replacement
+from pprint import pp, pprint
 
 
-def f(i, t, candidates : List[int], tmp : Deque[int], all_comb : Set[Tuple]):
 
-    if t == 0:
-        all_comb.add(tuple(sorted(tmp)))
+def subset(i : int, target : int, candidates : List[int], ds : Deque[int], ss : Deque[Deque[int]]):
+
+    if target == 0:
+        ss.append(ds.copy())
         return
 
-    if i < 0:
+    if i >= len(candidates):
         return
 
-    # Take
-    if t - candidates[i] >= 0: 
-        tmp.append(candidates[i])
-        f(i-1, t - candidates[i], candidates, tmp, all_comb)
-        tmp.pop()
+ 
+ 
+    for j in range(i, len(candidates)):
+        if j > i and candidates[j] == candidates[j-1]:
+            continue
 
-    # Not Take
-    f(i-1, t, candidates, tmp, all_comb)
+        if candidates[j] > target:
+            break
+        ds.append(candidates[j])
+        subset(j + 1, target - candidates[j], candidates, ds, ss)
+        ds.pop()
+
 
 class Solution:
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+    def combinationSum(self, candidates: List[int], target: int):
 
-        tmp = deque()
-        all_comb = set()
+        ds = deque()
+        ss = deque()
+        candidates.sort()
 
-        f(len(candidates) -1 , target, candidates, tmp, all_comb)
-        return all_comb
+        subset(0, target, candidates, ds, ss)
+        return ss
 
 
 
@@ -49,8 +56,10 @@ def main():
     # candidates = [2,3,5]
     target = 8
     candidates = [10,1,2,7,6,1,5]
+    # candidates = [1,2, 5, 1]
     solution = Solution()
-    print(f"ans is {solution.combinationSum(candidates, target)}")
+    ans = solution.combinationSum(candidates, target)
+    pprint(ans)
 
 if __name__ == '__main__':
     main()
