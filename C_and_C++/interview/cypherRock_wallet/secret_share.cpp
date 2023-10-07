@@ -123,13 +123,14 @@ int main() {
 
   cout << "Secret is divided to 4 parts: " << endl;
   // Here we can print all the cordinates but because of too many parts (each
-  // having 32 bytes) it will look messy for (auto shareholder : shareholders) {
-  //   for (auto p : shareholder.share) {
-  //
-  //     std::cout << "{" << p.first << "," << p.second << "}, ";
-  //   }
-  //   std::cout << std::endl;
-  // }
+  // having 32 bytes) it will look messy
+  for (auto shareholder : shareholders) {
+    for (auto p : shareholder.share) {
+
+      std::cout << "{" << p.first << "," << p.second << "}, ";
+    }
+    std::cout << std::endl;
+  }
 
   cout << "We can reconstruct Secret from any of 2 parts" << endl;
   cout << "Constructing from 1st and 3nd share: " << endl;
