@@ -1,0 +1,22 @@
+body {
+  background-color: lightblue;
+  text-align: center;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+p {
+  font-family: verdana;
+  font-size: 20px;
+}
+p1 {
+  font-family: verdana;
+  font-size: 20px;
+}
+
+li:hover {
+  background-color: red;
+}

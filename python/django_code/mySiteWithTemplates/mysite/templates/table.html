@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block start %}
+
+<p>This is Table page</p>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Can Vote</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for p in peoples  %}
+   
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{p.name}}</td>
+      <td>{{p.age}}</td>
+      <td>
+      {% if p.age > 18 %}
+        Yes
+      {% elif p.age == 18 %}
+        It's 18!
+      {% else %}
+        No
+      {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+{% endblock start %}
