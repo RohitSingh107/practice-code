@@ -74,6 +74,18 @@ public:
     return shareholders;
   }
 
+  bool verifyShare(vector<pair<int, int>> &share) {
+
+    for (int i = 0; i < 32; i++) {
+
+      if (share[i].second !=
+          mArray[i] * share[i].first + secret[i]) { // y = mx + c
+        return false;
+      }
+    }
+    cout << "Share is valid" << std::endl;
+    return true;
+  }
   vector<int> reconstructSecret(vector<Shareholder> &shareholders) {
 
     vector<int> reconstructSecret(32);
@@ -124,13 +136,13 @@ int main() {
   cout << "Secret is divided to 4 parts: " << endl;
   // Here we can print all the cordinates but because of too many parts (each
   // having 32 bytes) it will look messy
-  for (auto shareholder : shareholders) {
-    for (auto p : shareholder.share) {
-
-      std::cout << "{" << p.first << "," << p.second << "}, ";
-    }
-    std::cout << std::endl;
-  }
+  // for (auto shareholder : shareholders) {
+  //   for (auto p : shareholder.share) {
+  //
+  //     std::cout << "{" << p.first << "," << p.second << "}, ";
+  //   }
+  //   std::cout << std::endl;
+  // }
 
   cout << "We can reconstruct Secret from any of 2 parts" << endl;
   cout << "Constructing from 1st and 3nd share: " << endl;
@@ -154,5 +166,7 @@ int main() {
     std::cout << reconstructedSecretAgain[i] << " ";
   }
   std::cout << std::endl;
+
+  // dealer.verifyShare(shareholders[3].share);
   return 0;
 }
