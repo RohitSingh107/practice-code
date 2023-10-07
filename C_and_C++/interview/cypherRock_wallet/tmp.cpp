@@ -3,104 +3,155 @@
 // secret sharing algorithm
 
 #include <bits/stdc++.h>
+#include <cstdint>
+#include <utility>
+#include <vector>
 using namespace std;
 
 class Shareholder {
 
 public:
-  pair<int, int> share;
-  Shareholder(pair<int, int> _share) { share = _share; }
+  vector<pair<int, int>> share;
+  Shareholder() {
 
-  int reconstructSecret(Shareholder &other_shareholder) {
+    for (int i = 0; i < 32; i++) {
+      share.push_back({0, 0});
+    }
+  }
+
+  vector<int> reconstructSecret(Shareholder &other_shareholders) {
+
+    vector<int> reconstructSecret(32);
 
     // Using Euclid's formula : y1 = ((y0 - y1) / (x0 - x1)) * x1 + c
     // so c = y1 - (((y0 - y1) / (x0 - x1)) * x1)
-    return share.second -
-           ((other_shareholder.share.second - share.second) * share.first) /
-               (other_shareholder.share.first - share.first);
+    for (int i = 0; i < 32; i++) {
+
+      int y1 = share[i].second;
+      int y0 = other_shareholders.share[i].second;
+      int x1 = share[i].first;
+      int x0 = other_shareholders.share[i].first;
+      reconstructSecret[i] = y1 - ((y0 - y1) * x1) / (x0 - x1);
+    }
+
+    return reconstructSecret;
   }
 };
 
 class Dealer {
 
 private:
-  int secret; // y = mx + c, c = secret
-  int m = 0;  // y = mx + c, m != 0, it will be used for verification
+  int secret[32]; // y = mx + c, c = secret
+  int mArray[32]; // y = mx + c, m != 0, it will be used for verification
 
 public:
-  Dealer(int _secret) { secret = _secret; }
+  Dealer(const int secretByteArray[32]) {
+    for (int i = 0; i < 32; i++) {
+      secret[i] = secretByteArray[i];
+    }
+  }
 
   vector<Shareholder> distribute() {
     // Using the polynomial of degree 1: ax + b
 
-    vector<Shareholder> shareholders;
+    vector<Shareholder> shareholders(4);
 
-    while (m == 0) {
-      m = (rand() % 127);
-    }
+    for (int c = 0; c < 32; c++) {
+      int m = 0;
+      while (m == 0) {
+        m = (rand() % 127);
+      }
+      mArray[c] = m;
 
-    for (int i = 1; i <= 4; ++i) {
-      int x = (rand() % 127);
-      int y = (m * x) + secret; // y = mx + c
+      for (int i = 0; i < 4; ++i) {
+        int x = (rand() % 127);
+        int y = (m * x) + secret[c]; // y = mx + c
 
-      shareholders.push_back(Shareholder({x, y}));
+        shareholders[i].share[c] = {x, y};
+      }
     }
 
     return shareholders;
   }
 
-  bool verifyShare(pair<int, int> share) {
+  vector<int> reconstructSecret(vector<Shareholder> &shareholders) {
 
-    if (share.second == m * share.first + secret) { // y = mx + c
-      cout << "Share is valid" << std::endl;
-      return true;
-    } else {
-      cout << "Share is invalid" << std::endl;
-      return false;
-    }
-  }
+    vector<int> reconstructSecret(32);
 
-  int reconstructSecret(vector<Shareholder> &shares) {
-
-    if (shares.size() < 2) {
+    if (shareholders.size() < 2) {
       cout << "At least two shares are required!" << endl;
-      return 0;
+      return {};
     }
 
     // Using Euclid's formula : y1 = ((y0 - y1) / (x0 - x1)) * x1 + c
     // so c = y1 - (((y0 - y1) / (x0 - x1)) * x1)
-    return shares[1].share.second -
-           ((shares[0].share.second - shares[1].share.second) *
-            shares[1].share.first) /
-               (shares[0].share.first - shares[1].share.first);
+    for (int i = 0; i < 32; i++) {
+
+      int y1 = shareholders[1].share[i].second;
+      int y0 = shareholders[0].share[i].second;
+      int x1 = shareholders[1].share[i].first;
+      int x0 = shareholders[0].share[i].first;
+      reconstructSecret[i] = y1 - ((y0 - y1) * x1) / (x0 - x1);
+    }
+
+    return reconstructSecret;
   }
 };
 
 int main() {
 
-  int secret = 5068;
-  std::cout << "Original Secret is " << secret << std::endl;
+  // Declare an array of bytes with a size of 32
+  int secretByteArray[32] = {4,  2, 4,  3, 71, 41, 3, 1,  6,  7,  1,
+                             22, 3, 0,  7, 8,  9,  1, 0,  5,  25, 3,
+                             56, 8, 94, 2, 3,  4,  5, 67, 33, 4};
 
-  Dealer dealer = Dealer(secret);
+  // // You can initialize or manipulate the elements as needed
+  // for (int i = 0; i < 32; ++i) {
+  //   secretByteArray[i] = i; // Initialize with values from 0 to 31
+  // }
+
+  // Print the array elements
+  std::cout << "Original Secret: ";
+  for (int i = 0; i < 32; ++i) {
+    std::cout << static_cast<int>(secretByteArray[i]) << " ";
+  }
+  std::cout << std::endl;
+
+  Dealer dealer = Dealer(secretByteArray);
 
   vector<Shareholder> shareholders = dealer.distribute();
 
   cout << "Secret is divided to 4 parts: " << endl;
-  for (auto shareholder : shareholders) {
-    cout << shareholder.share.first << " " << shareholder.share.second << endl;
-  }
+  // Here we can print all the cordinates but because of too many parts (each
+  // having 32 bytes) it will look messy for (auto shareholder : shareholders) {
+  //   for (auto p : shareholder.share) {
+  //
+  //     std::cout << "{" << p.first << "," << p.second << "}, ";
+  //   }
+  //   std::cout << std::endl;
+  // }
 
   cout << "We can reconstruct Secret from any of 2 parts" << endl;
+  cout << "Constructing from 1st and 3nd share: " << endl;
   vector<Shareholder> anyTwoShare = {shareholders[0], shareholders[2]};
-  int reconstructedSecret = dealer.reconstructSecret(anyTwoShare);
+  vector<int> reconstructedSecret = dealer.reconstructSecret(anyTwoShare);
 
-  cout << "Reconstructed Secret with 1st and 3nd share is : "
-       << reconstructedSecret << endl;
+  // Print the reconstructed elements
+  std::cout << "Secret from 1st and 3rd share: ";
+  for (int i = 0; i < 32; ++i) {
+    std::cout << reconstructedSecret[i] << " ";
+  }
+  std::cout << std::endl;
 
-  cout << "Reconstructed Secret with 4st and 2nd share is : "
-       << shareholders[3].reconstructSecret(shareholders[1]) << endl;
+  cout << "Constructing from 4th and 2nd share: " << endl;
+  vector<int> reconstructedSecretAgain =
+      shareholders[3].reconstructSecret(shareholders[1]);
 
-  // dealer.verifyShare({3, 5073});
-
+  // Print the reconstructed elements
+  std::cout << "Secret from 4th and 2nd share: ";
+  for (int i = 0; i < 32; ++i) {
+    std::cout << reconstructedSecretAgain[i] << " ";
+  }
+  std::cout << std::endl;
   return 0;
 }

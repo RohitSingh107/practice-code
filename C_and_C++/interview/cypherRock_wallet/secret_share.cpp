@@ -78,7 +78,7 @@ public:
 
 int main() {
 
-  int secret = 5068;
+  int secret = 0;
   std::cout << "Original Secret is " << secret << std::endl;
 
   Dealer dealer = Dealer(secret);
