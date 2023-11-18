@@ -1,7 +1,9 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from datetime import datetime
 
-# Create your views here.
+from mysite.forms import MyForm
+
 
 
 def home(request):
@@ -21,3 +23,25 @@ def table(request):
 
 def about(request):
     return render(request, "about.html", context={"page" : "About Page"})
+
+def formm_page(request):
+    print("======================================h1")
+
+    if request.method == "POST":
+        print("======================================h2")
+        myForm = MyForm(request.POST)
+        print("======================================h3")
+        if myForm.is_valid():
+            print("======================================h4")
+
+            print("form data is ", myForm.cleaned_data) # Can do anything here with data
+            return HttpResponseRedirect("/")
+        else:
+            print("======================================h6")
+
+            return HttpResponseRedirect("/form/")
+
+    else:
+        print("======================================h5")
+        myForm = MyForm()
+        return render(request, "form.html", context={"page" : "Form Page", "myForm" : myForm})
