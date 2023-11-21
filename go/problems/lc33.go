@@ -12,7 +12,11 @@ func search(nums []int, target int) int {
 
     mid := (lo + hi) / 2
 
-    if nums[lo] < nums[mid] {
+    if nums[mid] == target {
+      return mid
+    }
+
+    if nums[lo] <= nums[mid] {
       
       if nums[lo] <= target && target <= nums[mid] {
         hi = mid - 1
@@ -23,20 +27,14 @@ func search(nums []int, target int) int {
 
     } else {
 
-      if nums[lo] <= target || target <= nums[mid] {
-        hi = mid - 1
-      } else {
+      if nums[mid] <= target && target <= nums[hi] {
         lo = mid + 1
+      } else {
+        hi = mid - 1
       }
 
     }
 
-  }
-
-  // fmt.Println("lo is ", lo)
-
-  if nums[lo] == target {
-    return lo
   }
 
   return -1
@@ -45,8 +43,11 @@ func search(nums []int, target int) int {
 
 func main() {
 
-  nums := []int{5,6,7,8,9,0,1,3}
-  target := 3
+  // nums := []int{5,6,7,8,9,0,1,3}
+  // target := 3
+
+  nums := []int{3,1}
+  target := 1
 
   fmt.Println("Ans is ", search(nums, target))
 
