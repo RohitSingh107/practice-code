@@ -41,6 +41,27 @@ class Solution:
             tap += 1
             target = max_reach + 1
 
+        # max_reach = -1
+        #
+        # print(sorted_ranges)
+        #
+        # for l, r in sorted_ranges:
+        #     if l > target:
+        #         if max_reach >= target:
+        #             tap += 1
+        #             target = max_reach + 1
+        #             max_reach = r
+        #         else:
+        #             # print("target is ", target)
+        #             return -1
+        #     else:
+        #         max_reach = r
+        #
+        # if max_reach >= target:
+        #     tap += 1
+        # # print(target, max_reach)
+
+
 
         return tap
 
@@ -59,10 +80,12 @@ class Solution:
 def main():
 
 
-    n = 6
-    gallery = [-1, 2, 2, -1, 0, 0]
+    # gallery = [-1, 2, 2, -1, 0, 0]
+    # gallery = [2,3,4,-1,0,0,0,0,0]
+    gallery = [2, 3, 4, -1, 2, 0, 0, -1, 0]
+
     solution = Solution()
-    print(f"ans is {solution.min_sprinklers(gallery, n)}")
+    print(f"ans is {solution.min_sprinklers(gallery, len(gallery))}")
 
 if __name__ == '__main__':
     main()
