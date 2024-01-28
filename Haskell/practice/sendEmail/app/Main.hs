@@ -37,7 +37,7 @@ subject :: Text
 subject = "Network.HaskellNet.SMTP Test :)"
 
 plainBody :: LT.Text
-plainBody = "This is plain body"
+plainBody = "This is plain body rohit 1 2\n\nsingh 4 5 7\n6\n"
 
 htmlBody :: LT.Text
 htmlBody = "<html><head></head><body><h1>Hello <i>world, This is html body!</i></h1></body></html>"
