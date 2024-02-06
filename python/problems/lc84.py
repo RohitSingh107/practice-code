@@ -3,10 +3,6 @@ from collections import deque
 from typing import List, Deque
 
 
-
-
-
-
 import sys
 
 
@@ -68,32 +64,31 @@ import sys
 
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
-
         ans = -sys.maxsize
 
         n = len(heights)
 
+        stack: Deque[int] = deque()
 
-        stack : Deque[int] = deque()
+        for r in range(n + 1):
+            while len(stack) > 0 and (r == n or heights[stack[-1]] > heights[r]):
+                h = heights[stack.pop()]
+                l = -1 if len(stack) == 0 else stack[-1]
+                ans = max(ans, h * (r - l - 1))
 
-        for i in range(n + 1):
-
-            while len(stack) > 0 and heights[stack[-1]] > heights[i]:
-                ans = max(ans, heights[i] * (i - (stack[-1]) - 1))
-
-            stack.append(i)
-
-
-        # print(previous_smallers, stack)
+            stack.append(r)
 
         return ans
 
 
 def main():
-    heights = [2,1,5,6,2,3]
+    # heights = [2,1,5,6,2,3]
     # heights = [1]
+    heights = [2, 4]
+
     solution = Solution()
     print(f"ans is {solution.largestRectangleArea(heights)}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
