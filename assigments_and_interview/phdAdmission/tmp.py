@@ -1,111 +1,86 @@
 
-import os
-# import random
+
+
+
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
-import cv2
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.decomposition import PCA
+from sklearn.metrics import classification_report
+from itertools import combinations
 
-# Function to generate a random number
-def generate_random_number(seed=None):
-    if seed is not None:
-        random.seed(seed)
-    return random.randint(0, 100)
+# Load data
+train_data = pd.read_csv('mnist_train.csv')
+test_data = pd.read_csv('mnist_test.csv')
 
-# Function to check imbalance in dataset
-def check_imbalance(dataset_path):
-    classes = os.listdir(dataset_path)
-    num_images_per_class = {cls: len(os.listdir(os.path.join(dataset_path, cls))) for cls in classes}
-    class_labels = list(num_images_per_class.keys())
-    num_images = list(num_images_per_class.values())
-
-    plt.bar(class_labels, num_images)
-    plt.xlabel('Classes')
-    plt.ylabel('Number of Images')
-    plt.title('Number of Images per Class')
-    plt.xticks(rotation=45)
+# Visualize two images of each class
+def visualize_images(data):
+    fig, axs = plt.subplots(10, 2, figsize=(8, 20))
+    for i in range(10):
+        for j in range(2):
+            img = data[data['label'] == i].iloc[j, 1:].values.reshape(28, 28)
+            axs[i, j].imshow(img, cmap='gray')
+            axs[i, j].axis('off')
     plt.show()
 
-    min_images = min(num_images)
-    max_images = max(num_images)
-    if max_images > 2 * min_images:
-        imbalanced_class = class_labels[num_images.index(max_images)]
-        print(f"The dataset is imbalanced. The imbalanced class is {imbalanced_class}.")
-        print("To balance the dataset, methods like data augmentation, oversampling, or undersampling can be used.")
-    else:
-        print("The dataset is balanced.")
+visualize_images(train_data)
 
-# Function to convert images to grayscale and plot histograms
-def plot_histograms(dataset_path, num_samples=8):
-    classes = os.listdir(dataset_path)
-    sampled_images = random.sample([os.path.join(root, file) for root, _, files in os.walk(dataset_path) for file in files], num_samples)
+# Split data
+X_train, X_val, y_train, y_val = train_test_split(train_data.iloc[:, 1:], train_data['label'], test_size=0.2, random_state=42)
 
-    for image_path in sampled_images:
-        image = cv2.imread(image_path)
-        if len(image.shape) > 2:
-            gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        else:
-            gray_image = image
-        plt.figure(figsize=(10, 5))
+# Function to train and evaluate logistic regression model
+def train_and_evaluate(X_train, y_train, X_val, y_val):
+    model = LogisticRegression(max_iter=1000)
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_val)
+    print(classification_report(y_val, y_pred))
 
-        plt.subplot(1, 2, 1)
-        plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-        plt.title('Original Image')
+# One-versus-one (OVO) classification
+def ovo_classification(X_train, y_train, X_val, y_val):
+    ovo_models = {}
+    classes = np.unique(y_train)
+    for pair in combinations(classes, 2):
+        X_pair = X_train[(y_train == pair[0]) | (y_train == pair[1])]
+        y_pair = y_train[(y_train == pair[0]) | (y_train == pair[1])]
+        y_pair = np.where(y_pair == pair[0], 0, 1)
+        model = LogisticRegression(max_iter=1000)
+        model.fit(X_pair, y_pair)
+        ovo_models[pair] = model
+    predictions = np.zeros((len(X_val), len(classes)))
+    for pair, model in ovo_models.items():
+        pred = model.predict(X_val)
+        pred = np.where(pred == 0, pair[0], pair[1])
+        predictions[:, pair[0]] += np.where(pred == pair[0], 1, 0)
+        predictions[:, pair[1]] += np.where(pred == pair[1], 1, 0)
+    y_pred = np.argmax(predictions, axis=1)
+    print(classification_report(y_val, y_pred))
 
-        plt.subplot(1, 2, 2)
-        plt.hist(gray_image.ravel(), 256, [0, 256])
-        plt.title('Histogram')
+# One-versus-rest (OVR) classification
+def ovr_classification(X_train, y_train, X_val, y_val):
+    ovr_models = {}
+    classes = np.unique(y_train)
+    for cls in classes:
+        y_cls = np.where(y_train == cls, 1, 0)
+        model = LogisticRegression(max_iter=1000)
+        model.fit(X_train, y_cls)
+        ovr_models[cls] = model
+    predictions = np.zeros((len(X_val), len(classes)))
+    for cls, model in ovr_models.items():
+        proba = model.predict_proba(X_val)[:, 1]
+        predictions[:, cls] = proba
+    y_pred = np.argmax(predictions, axis=1)
+    print(classification_report(y_val, y_pred))
 
-        plt.show()
+# Perform PCA
+pca = PCA(n_components=2)
+pca.fit(X_train)
+print("Percentage of variance covered by the first two principal components:", sum(pca.explained_variance_ratio_) * 100)
 
-# Function to perform transformations on images and plot before and after images
-def plot_image_transformations(dataset_path, num_samples=1):
-    classes = os.listdir(dataset_path)
-    sampled_images = random.sample([os.path.join(root, file) for root, _, files in os.walk(dataset_path) for file in files], num_samples)
+# Evaluate models
+print("One-versus-one (OVO) classification report:")
+ovo_classification(X_train, y_train, X_val, y_val)
 
-    for image_path in sampled_images:
-        image = cv2.imread(image_path)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-        # Random Rotation
-        angle = generate_random_number()
-        rotated_image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
-
-        # Random Cropping
-        h, w, _ = image.shape
-        crop_top = generate_random_number() % (h // 2)
-        crop_bottom = h - (generate_random_number() % (h // 2))
-        crop_left = generate_random_number() % (w // 2)
-        crop_right = w - (generate_random_number() % (w // 2))
-        cropped_image = image[crop_top:crop_bottom, crop_left:crop_right]
-
-        # Random Scale
-        scale_factor = generate_random_number() / 100.0
-        new_h = int(h * scale_factor)
-        new_w = int(w * scale_factor)
-        scaled_image = cv2.resize(image, (new_w, new_h))
-
-        plt.figure(figsize=(10, 5))
-
-        plt.subplot(2, 2, 1)
-        plt.imshow(image)
-        plt.title('Original Image')
-
-        plt.subplot(2, 2, 2)
-        plt.imshow(rotated_image)
-        plt.title('Rotated Image')
-
-        plt.subplot(2, 2, 3)
-        plt.imshow(cropped_image)
-        plt.title('Cropped Image')
-
-        plt.subplot(2, 2, 4)
-        plt.imshow(scaled_image)
-        plt.title('Scaled Image')
-
-        plt.show()
-
-# Example usage:
-dataset_path = 'imgdata/'
-check_imbalance(dataset_path)
-plot_histograms(dataset_path)
-plot_image_transformations(dataset_path)
+print("One-versus-rest (OVR) classification report:")
+ovr_classification(X_train, y_train, X_val, y_val)
