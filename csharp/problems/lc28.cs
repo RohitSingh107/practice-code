@@ -2,44 +2,18 @@
 
 using System.Text.RegularExpressions;
 
-namespace lc686
+namespace lc28
 {
 
     public class Solution
     {
-        public int RepeatedStringMatch(string a, string b)
+
+
+
+        public int StrStr(string text, string pattern)
         {
 
-            // Console.WriteLine(RabinKarp("abcdabcdabcd", "cdabcdab"));
-            // Console.WriteLine(RabinKarp("abcdabcdabcd", "bcd"));
-            // Console.WriteLine("abcdefghijkl".Substring(3, 6));
-            int ans = 1;
-            string newa = a;
-            while (newa.Length < b.Length)
-            {
-                newa += a;
-                ans += 1;
-
-            }
-
-            if (RabinKarp(newa, b) != -1)
-            {
-                return ans;
-            }
-            if (RabinKarp(newa + a, b) != -1)
-            {
-                return ans + 1;
-            }
-
-            return -1;
-
-        }
-
-
-        private int RabinKarp(string text, string pattern)
-        {
-
-            Console.WriteLine($"a is {text}, b is {pattern}");
+            // Console.WriteLine($"a is {text}, b is {pattern}");
 
             // int M = 2147483647;
             int M = 1000000;
@@ -98,7 +72,7 @@ namespace lc686
                         currentHash += M;
                     }
                 }
-                Console.WriteLine($"CH1 is {currentHash}, target is {hash}, i is {i}");
+                // Console.WriteLine($"CH1 is {currentHash}, target is {hash}, i is {i}");
 
 
                 if (currentHash == hash)
@@ -119,7 +93,7 @@ namespace lc686
             string a = "abcd";
             string b = "cdabcdab";
 
-            int ans = RepeatedStringMatch(a, b);
+            int ans = StrStr(a, b);
             Console.WriteLine($"ans is {ans}");
         }
     }
