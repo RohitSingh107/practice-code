@@ -2,7 +2,7 @@ public class Program
 {
     static public void Main()
     {
-        new lc8.Solution().Test();
+        new lc686.Solution().Test();
 
     }
 }
