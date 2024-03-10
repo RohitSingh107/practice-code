@@ -37,3 +37,7 @@ class BookspiderSpider(scrapy.Spider):
         book_item['book_url'] = response.url
 
         yield book_item
+
+
+
+
