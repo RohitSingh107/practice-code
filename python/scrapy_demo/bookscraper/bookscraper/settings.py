@@ -1,3 +1,5 @@
+from secret import SCRAPEOPS_API_KEY
+
 # Scrapy settings for bookscraper project
 #
 # For simplicity, this file contains only settings considered important or
@@ -51,9 +53,11 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    "bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+   # "bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
+   # 'bookscraper.middlewares.ScrapeOpsFakeUserAgentMiddleware' : 400, 
+   'bookscraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware' : 400, 
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -65,7 +69,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     "bookscraper.pipelines.BookscraperPipeline": 300,
-    "bookscraper.pipelines.SavingToPostgresPipeline": 400,
+    # "bookscraper.pipelines.SavingToPostgresPipeline": 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -93,3 +97,12 @@ ITEM_PIPELINES = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+
+SCRAPEOPS_API_KEY = SCRAPEOPS_API_KEY
+SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = "https://headers.scrapeops.io/v1/user-agents"
+SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
+SCRAPEOPS_NUM_RESULTS = 50
+
+SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT = "https://headers.scrapeops.io/v1/browser-headers"
+SCRAPEOPS_FAKE_BROWSER_HEADER_ENABLED = True
