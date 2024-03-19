@@ -1,16 +1,14 @@
 [tool.poetry]
-name = "scrapy-demo"
+name = "flet-learning"
 version = "0.1.0"
 description = ""
 authors = ["Rohit <RohitSinghEmail@protonmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-scrapy = "^2.11.1"
-ipython = "^8.22.1"
-psycopg2 = "^2.9.9"
-types-requests = "^2.31.0.20240311"
+flet = "^0.21.1"
 
 
 [build-system]
