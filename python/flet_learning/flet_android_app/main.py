@@ -2,6 +2,7 @@ import flet as ft
 
 
 def main(page):
+    print("In the main page")
 
     first_name = ft.Ref[ft.TextField]()
     last_name = ft.Ref[ft.TextField]()

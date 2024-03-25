@@ -69,9 +69,23 @@
         mount
         libunwind
 
+
         python312Packages.flet
         python312Packages.flet-runtime
         flet-client-flutter
+        
+        libdwg
+        elfutils
+        zstd
+        orc
+        util-linux
+        libselinux
+        libsepol
+        libthai
+        libdatrie
+        python312Packages.datrie
+        xorg.libXdmcp
+        xorg.libXtst
       ];
 
       # Make Flutter build on desktop
