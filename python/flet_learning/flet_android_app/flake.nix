@@ -108,18 +108,96 @@
         # Fix an issue with Flutter using an older version of aapt2, which does not know
         # an used parameter.
         GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${sdk}/share/android-sdk/build-tools/34.0.0/aapt2";
+
+        # shellHook = ''
+        #
+        #   unset LD_LIBRARY_PATH
+        #   unset GIO_EXTRA_MODULES
+        #
+        #   echo "Welcome to nix shell"
+        #
+        # '';
       };
 
       pipzone =
         (pkgs.buildFHSUserEnv {
           name = "pipzone";
           targetPkgs = pkgs: (with pkgs; [
-            python312Packages.pip
-            python312Packages.virtualenv
-            python312Packages.flet
-            python312Packages.flet-runtime
+            poetry
+            python311Packages.pip
+            python311Packages.virtualenv
+
+            gtk3
+            pango
+            harfbuzz
+            atk
+            gst_all_1.gstreamer
+            gst_all_1.gst-plugins-base
+
+            mpv-unwrapped
+            mpv
+
+            # Android
+            pinnedJDK
+            sdk
+
+            # Flutter
+            flutter
+            dart
+
+            # Flutter dependencies for linux desktop
+            cairo
+            clang
+            cmake
+            epoxy
+            gdk-pixbuf
+            glib
+            gtk3
+            harfbuzz
+            ninja
+            pcre
+            pcre2
+            pkg-config
+            xorg.libX11
+            xorg.xorgproto
+            clutter-gst
+            mount
+            libunwind
+
+            libdwg
+            elfutils
+            zstd
+            orc
+            util-linux
+            libselinux
+            libsepol
+            libthai
+            libdatrie
+            python312Packages.datrie
+            xorg.libXdmcp
+            xorg.libXtst
           ]);
-        }).env;
+
+          runScript = ''
+            poetry shell
+            
+          '';
+
+          profile = ''
+            unset LD_LIBRARY_PATH
+            unset GIO_EXTRA_MODULES
+            export CHROME_EXECUTABLE=chromium
+
+            export ANDROID_HOME=${sdk}/share/android-sdk
+            export ANDROID_SDK_ROOT=${sdk}/share/android-sdk
+            export JAVA_HOME=${pinnedJDK}
+            export FLUTTER_ROOT=${pkgs.flutter}
+            export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/23.1.7779620/
+
+            export GRADLE_OPTS=-Dorg.gradle.project.android.aapt2FromMavenOverride=${sdk}/share/android-sdk/build-tools/34.0.0/aapt2
+          '';
+        })
+        .env;
     };
   };
 }

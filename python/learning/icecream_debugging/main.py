@@ -1,5 +1,11 @@
 from icecream import ic
 
+
+ic.configureOutput(includeContext=True)
+
+ic.disable()
+ic.enable()
+
 def myf(a, b):
     for i in range(10):
         if a == b:

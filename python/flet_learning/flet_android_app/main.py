@@ -1,8 +1,11 @@
+
+
 import flet as ft
 
 
 def main(page):
-    print("In the main page")
+
+    print("This is main page ", page)
 
     first_name = ft.Ref[ft.TextField]()
     last_name = ft.Ref[ft.TextField]()
@@ -24,4 +27,5 @@ def main(page):
         ft.Column(ref=greetings),
     )
 
+# ft.app(target=main, view=ft.AppView.WEB_BROWSER, route_url_strategy="path (/)")
 ft.app(target=main)
