@@ -1,19 +1,22 @@
 
 
-n, q = input().split()
+from functools import reduce, cached_property
+import io
+import sys
+import math
+import itertools
+import collections
 
-v = []
+b = io.StringIO()
 
-for _ in range(int(n)):
-    v.append(list(map(int,input().split())))
+sys.stdout = b
+
+help(itertools)
+
+sys.stdout = sys.__stdout__
+
+# print(b.getvalue())
+
+print(help("".count))
 
 
-t = int(input())
-
-vs = []
-
-for _ in range(t):
-    s = input()
-    vs.append(s)
-
-print(v, vs)
