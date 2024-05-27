@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "purs-tidy": "^0.11.0"
+  }
+}
