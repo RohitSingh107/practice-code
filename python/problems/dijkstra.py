@@ -1,3 +1,4 @@
+# https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
 from collections import deque
 from typing import List, Deque, Tuple
 from icecream import ic
