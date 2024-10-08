@@ -1,0 +1,28 @@
+dail_limit: 1000
+threshold: -0.5
+tickers:
+  ALPHAETF:
+    dip: 1.25
+    price: 27.63
+    rebalance_factor: 1
+    weight: 2
+  MIDCAPETF:
+    dip: 2.09
+    price: 21.54
+    rebalance_factor: 1
+    weight: 2
+  MON100:
+    dip: 0.1
+    price: 162.37
+    rebalance_factor: 1
+    weight: 3
+  MOSMALL250:
+    dip: 3.46
+    price: 17.6
+    rebalance_factor: 1
+    weight: 2
+  SMALLCAP:
+    dip: 2.83
+    price: 50.46
+    rebalance_factor: 1
+    weight: 2
