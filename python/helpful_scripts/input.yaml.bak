@@ -3,26 +3,42 @@ last_updated: 2024-11-21
 threshold: -0.5
 tickers:
   ALPHAETF:
+    dip: -0.63
+    price: 25.2
     rebalance_factor: 1
     weight: 1
   CPSEETF:
+    dip: -0.67
+    price: 87.88
     rebalance_factor: 1
     weight: 1
   HDFCSML250:
+    dip: -0.5
+    price: 168.59
     rebalance_factor: 1
     weight: 5
   MIDCAPETF:
+    dip: 2.31
+    price: 20.33
     rebalance_factor: 1
     weight: 8
   MOM30IETF:
+    dip: -1.53
+    price: 33.29
     rebalance_factor: 1
     weight: 1
   MON100:
+    dip: 3.18
+    price: 169.3
     rebalance_factor: 1
     weight: 10
   MOSMALL250:
+    dip: 0.6
+    price: 16.76
     rebalance_factor: 1
     weight: 5
   SMALLCAP:
+    dip: 0.91
+    price: 47.73
     rebalance_factor: 1
     weight: 10

@@ -66,6 +66,8 @@ if "rw" in sys.argv:
         else:
             data['tickers'][t]['weight'] += 1
 
+    data['last_updated'] = date.today() 
+
     with open('input.yaml', 'w') as f:
         yaml.dump(data, f)
 
