@@ -8,17 +8,19 @@ import sys
 import math
 from datetime import date
 
+import requests
+
 cookies = {
-    '_abck': '0F400126EE635FB8F03795F2E2C0EB01~0~YAAQ5wVaaBPe3EOTAQAA9ES8WQy7udJZGjiMTTWNjurmw4DzUann4vFJAmjwgnZEY8jGoKTCT2m6NeY0c6BU/BWGBXXdxeOspnOJeWh5xL/g+8A1pizMBuPwrvDByhmuCuHpiKiGdOs+CTvYW8gTEaU8aeoymtQkc5+ClJuS++9x8xmtSSeuejY5J4rJ4c6HY/+zYPdqZd8CGu4nJIeTO7KAuNP/t+RtTH0B1JJItJUprP/Kw10wNb+2WH5mtyyTjPSQt80jS8tAekFrQSAI6OgCbLExi2adqPWp/PKFaFy0/04STuS1920RGc+6M9aKtc2h7HB2rkL+xet8s8IZiNYVT9cVcWfXyG/Hgx5kD+JCTJshI78Gl8LlUBjCDyo+drDu+ZYSDVRnRuJKPYgzEufUkRJOhTYjiyxTwcMg793VTZqq95hjtKK1y/MDx/gI1LWcCkXVWq3k60gP/qRjqgiqqv6Xl8SzOMJbuNbyznjmeBFrWt6n291bBXMl2A==~-1~-1~-1',
-    'nseQuoteSymbols': '[{"symbol":"GOLDBEES","identifier":null,"type":"equity"}]',
+    '_abck': '0F400126EE635FB8F03795F2E2C0EB01~0~YAAQDW/ZF09zOZuTAQAAQVnv8g1K5ZOXCV8wkxz/qX3l67sDLLstGJBpyTeFe3wh/glWp0iscksQ1na2fB8pfW9Vcm+ez7TZfShOIbLpTOCZIOX0/3EF8KJYqfMwyu7gMjiyCsoUI1uVCnbAaIIFX/PiD+PulJ82obYDwX/f3FKrhBeaGVA6zQwGnom60RIWx1+YmrHaOXgXsZWeiQHxD39ZUkAru/zJ1Cg+U8A8IV6mwbojt+h3Fjo4vNgrUfHXkdCqGF4TWAR7cHfZgiVS8TOn+553skcv1wMocJ3LDCssRTqapxiOQq1mL061SWMQ3DXNIecyF8TstJNVgtFhaiqrTp8r4lXb1e3yaWrED1LIXSwNkAKTz3D8X0fjTQb/YcPaXvFdn6fz82jGQbFkg3DdGAb5mPWsTs/n33mrKng6G+r7/C8I4nTJt6fFCzmIQeFiG2hjL4OpUIWhsze4N1qz+CVbgvwD0KwYyG085BSgjxe7L8WnRQZ1D8HrZw==~-1~-1~-1',
     'defaultLang': 'en',
-    'nsit': 'iM9f30KwrtNcVSIRw5zYSDX_',
+    'nsit': 'lVDKDYTLtTup4o_4xWKuWa34',
+    'nseappid': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcGkubnNlIiwiYXVkIjoiYXBpLm5zZSIsImlhdCI6MTczNDk0NzU5MSwiZXhwIjoxNzM0OTU0NzkxfQ.Szb8ipnYbFyJLhZ98WgUniBOjfez9wbixhHa523Cdwg',
     'AKA_A2': 'A',
-    'ak_bmsc': '4AF145588CD9389BA83223DC299D5F1E~000000000000000000000000000000~YAAQ5wVaaALe3EOTAQAAWUK8WRm923ujXDCx1zIlcWLc4KN/+GX9T8hsuFT/JdB3WxU5cBcnaJ2ovp+3xcC2z6evkSh6HoftUgDLu2lqsfP8NaKI/Jql0x94UT1yhxMGDtofnGw2t27BecxwIFpLaXsNUd+9Kc7/nEU+y8CNwkbVmWjyzEVAg/b/6YGpM0HtmGoasq6DFWpuiSIdKeeVrbuOM92dYNS3YUWdB8mlitaVKUApGUNBZP1GHsiO4O5JBZO/TEXkzW0rmBrUnj+q0zL5Y3zeRjfyVrETkFtKkgSFl4LQaxEB/O0iTX4+tjdXXh8xWcd1MooAQv/XDShN2pfnFSn0caqZDKvhYj5EB5Vn0AgZjAk+sWIyM/pEJm7jhbG7LnhyNVtrdmQe+g==',
-    'bm_sz': 'C2CCB86356EA85524E71729DC3CE402D~YAAQ5wVaaFDg3EOTAQAAerK8WRkGqObLDyozjh4o84pLg2pHw8j2EPxIHHKTnWRRNaD7NX+0Qv8wAvA1FrwEmM+/bQf+6DgWoXAN8gTz2S77bmgIfOmLNQ68S1rLfUKFXEP5GzCubW2uq9e+9jRpMhF/c0DBKtcXFU99y5c04d5xPIpmdp4GQ8zLL2/L1iWg2FSUHW7D4pJ9zIk3XZPo00cHHrfa6zEJ/C7i3Lp+Ph7U12wmgbCZyxa+a0A+UajiQLwf/vmWgV3Izgix4FhxxbsOmTt+i04WTppDRP586M/sP7T2jmR1BSj2by8iftDKmcU7SUyWOE/fUyQlGL2FkzhHUpVxwNKTOnuZDD9Bc+Oj9nl1YQUD59pfRKPlHSJez6nY/SjOrT6ASdqVVmg3Ef+Ji3owOV9UE4fzkQ==~4408884~3487029',
-    'bm_sv': '27D546B3D001FDB8D892B337CD24DA89~YAAQ5wVaaE/g3EOTAQAAerK8WRnHpAOIIjaZnCpwqneNgPiOZAxLdf9s8frGR0vlFqnOQ4hwLLqOtvWMz3WU2AVFeH4noWAXQNO9szQOx0rr5DoHickbAPXmJbYqwwO5MAWq+XtlX0x4IxiyCtmIGydrEgwsI3xJo74hFklkTFdFAr2pXuPZegJfzzNEgtbtsLMcp5RVBJzuKf2LmqKI3j0G2jHDN+n5kFVuH5HlQ5DpaX/sS+EKUKCmf+/uD3My6yQ3~1',
-    'bm_mi': '9A1A2B988E4ABD65ED37968E52157A6D~YAAQ5wVaaDzf3EOTAQAA+Ia8WRkdnsTtwzSoC0ahQc4PUBNj8bRV85yLiueO9kT0930P/6CYmOH4aGvz4V8iV2ZrykUOvXKjZYczUL3hAXJOIEvV8poEWih07LmT2vmcwimVyMw07HrimPbFY4Di82iSCqLoNuIf/AKjYLMAcEKFaOSzHzcZvO47q5ZP5XhUp+4EB6AkaA2WMgz4YlRVAZ8iC3v7ZtFIjhCwIZRTUwD3j/MnPzj43cKi9Jmy9eu04toQHmpfHTN1eeM6jFkFpe/50mUSXaTBGpqpCBMfU/t0c3tkr/vzAtdntvooDXNEFMeAjl718C5LJ3ELl6sjMPo=~1',
-    'nseappid': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcGkubnNlIiwiYXVkIjoiYXBpLm5zZSIsImlhdCI6MTczMjM3NzM1OCwiZXhwIjoxNzMyMzg0NTU4fQ.q7W6uNzL7sRIRZwh0MnlNC4GAe5KSS1Slo03PkaIe60',
+    'ak_bmsc': '90E54BF018EF97C9C86FE70F8869B0E0~000000000000000000000000000000~YAAQDW/ZFw1tOZuTAQAAXPbu8hqiiA7LcJixeqlEaP2W6bQJuvoKgMpSqbjKgmXAGRPMseOp3Hbmq3pyDaAWkKXzyPjwQH3Rn62uOjeipZ/RaFeqMt3Vk5/u11fDYwzbJAayqyJu52sfEDNQHyk8G0a7v1hRAfp4Q62sE1o1/p9AKIzAhY+JxJllsNVeNr8cB1a5TMyY6m9kPl0+Tv5PYpSOEkAdiwubeB0YCWqSVSKcSfjYDfGzd2CJFzEHr7sMIJa/Crof/E95tGvrrZ0gDGJGJT+sbsIvx8IPwX9k3uJOl09dforaSlhI+1AX1IAxW7R/Wj3drmQobkMPjorHwCfGdYgqBiO/m6ihU/bCvEToeShbNSKG02Nw5yqPANRNkToSBpjOkMERGXjqoA==',
+    'bm_sz': '7428B76EA1A0D899D3DBA63664EAAD33~YAAQDW/ZFy9zOZuTAQAAd1fv8hqOLCP81ivhXKYiscr4z7d3JjqlZ9mLPIPYvAJWKptd1LHr2IWLzvqI2Ndn4xavMwq4fCzwcPULGPTQdxk6EXZMbYfMmrdByLnEYIUbQGBbecazj2cTjGHJQJPH2vibsqtjvMaUNKZOitCWWkVmP9rWiwkcarpw7U6l2muaOwXkRZblDiXbCCvA+GrEkauZYjgu2G3ppnj7PsJkxiF1Dvx9eLq+OnFFhy0VDwoz6XIhICNZBSdywNG35Wo3ZgH0FMOqaVkkrCsPvzpQasxJWG++n0vMkwdpX4uN+MUfMe5XFcZQht5heglB5ERt11T0mwNhnH4E4jMKFWVdChhcAYTi3hewaKfWuaSo1vULI+y+c4hJNzmtRlG0UkIdUgPHIeSZzt7UK0iozQ==~3355444~4273976',
+    'bm_sv': '556F6309F18BAAD9C123667C5C91C86D~YAAQDW/ZFy5zOZuTAQAAd1fv8hqRm4D1+TdJADVC07RrpP20q447b963o5Km+HbhnY3jTcnSeWvfbBDa+9ZXVFzTsDBTJIJYV9snQ9+kZ9P8SiIHuXN/kUGCflrSpH6r7FprZD6ljYRdXpCALr1mtcFmN5SeZiFKpI6hI9mJOarWRmSUQXx4LE1zxVpiKopY+artk1FFOVCGbxL/b+ydAPFyfCe4GFqmUar26g/c5L8rIF3VebMD0ZQwwu8mk5yaVqw=~1',
+    'bm_mi': 'FAB949FC80912DCD7B5A4FF680198AB3~YAAQDW/ZF1VwOZuTAQAA6Srv8hp+MBK47Ia2L5eyu4onlYoKFRqkGQZ+wKeooExxRE/xONaSMjFTqM7J9BvolNrYIlMm5eCe29DYMLkOpwu4CONg0CqAkYWTIXoZUDXMltNhoDOjTR/hrj81LKpLi6o1AF52QmDUL1dcWAIo4Uc5Sc2W6CVPj4VqNwQb1Y+zWu07vnB9lNxvOv0KJBFNN3rvidLNl+M9P5Jdm5vtzNJuswKHkhCq1yD2dSZwATpWa0cENYvTtN3AwH6OK9HwioSZPegir6cxMvCuyM9WO1TA54S2COEUEcyxtKrz1gWSmKJ6iW3ZCd46Ek377VpbGw==~1',
+    'nseQuoteSymbols': '[{"symbol":"GOLDBEES","identifier":"","type":"equity"}]',
 }
 
 headers = {
@@ -28,10 +30,13 @@ headers = {
     # 'Accept-Encoding': 'gzip, deflate, br, zstd',
     'Connection': 'keep-alive',
     'Referer': 'https://www.nseindia.com/get-quotes/equity?symbol=GOLDBEES',
+    # 'Cookie': '_abck=0F400126EE635FB8F03795F2E2C0EB01~0~YAAQDW/ZF09zOZuTAQAAQVnv8g1K5ZOXCV8wkxz/qX3l67sDLLstGJBpyTeFe3wh/glWp0iscksQ1na2fB8pfW9Vcm+ez7TZfShOIbLpTOCZIOX0/3EF8KJYqfMwyu7gMjiyCsoUI1uVCnbAaIIFX/PiD+PulJ82obYDwX/f3FKrhBeaGVA6zQwGnom60RIWx1+YmrHaOXgXsZWeiQHxD39ZUkAru/zJ1Cg+U8A8IV6mwbojt+h3Fjo4vNgrUfHXkdCqGF4TWAR7cHfZgiVS8TOn+553skcv1wMocJ3LDCssRTqapxiOQq1mL061SWMQ3DXNIecyF8TstJNVgtFhaiqrTp8r4lXb1e3yaWrED1LIXSwNkAKTz3D8X0fjTQb/YcPaXvFdn6fz82jGQbFkg3DdGAb5mPWsTs/n33mrKng6G+r7/C8I4nTJt6fFCzmIQeFiG2hjL4OpUIWhsze4N1qz+CVbgvwD0KwYyG085BSgjxe7L8WnRQZ1D8HrZw==~-1~-1~-1; defaultLang=en; nsit=lVDKDYTLtTup4o_4xWKuWa34; nseappid=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcGkubnNlIiwiYXVkIjoiYXBpLm5zZSIsImlhdCI6MTczNDk0NzU5MSwiZXhwIjoxNzM0OTU0NzkxfQ.Szb8ipnYbFyJLhZ98WgUniBOjfez9wbixhHa523Cdwg; AKA_A2=A; ak_bmsc=90E54BF018EF97C9C86FE70F8869B0E0~000000000000000000000000000000~YAAQDW/ZFw1tOZuTAQAAXPbu8hqiiA7LcJixeqlEaP2W6bQJuvoKgMpSqbjKgmXAGRPMseOp3Hbmq3pyDaAWkKXzyPjwQH3Rn62uOjeipZ/RaFeqMt3Vk5/u11fDYwzbJAayqyJu52sfEDNQHyk8G0a7v1hRAfp4Q62sE1o1/p9AKIzAhY+JxJllsNVeNr8cB1a5TMyY6m9kPl0+Tv5PYpSOEkAdiwubeB0YCWqSVSKcSfjYDfGzd2CJFzEHr7sMIJa/Crof/E95tGvrrZ0gDGJGJT+sbsIvx8IPwX9k3uJOl09dforaSlhI+1AX1IAxW7R/Wj3drmQobkMPjorHwCfGdYgqBiO/m6ihU/bCvEToeShbNSKG02Nw5yqPANRNkToSBpjOkMERGXjqoA==; bm_sz=7428B76EA1A0D899D3DBA63664EAAD33~YAAQDW/ZFy9zOZuTAQAAd1fv8hqOLCP81ivhXKYiscr4z7d3JjqlZ9mLPIPYvAJWKptd1LHr2IWLzvqI2Ndn4xavMwq4fCzwcPULGPTQdxk6EXZMbYfMmrdByLnEYIUbQGBbecazj2cTjGHJQJPH2vibsqtjvMaUNKZOitCWWkVmP9rWiwkcarpw7U6l2muaOwXkRZblDiXbCCvA+GrEkauZYjgu2G3ppnj7PsJkxiF1Dvx9eLq+OnFFhy0VDwoz6XIhICNZBSdywNG35Wo3ZgH0FMOqaVkkrCsPvzpQasxJWG++n0vMkwdpX4uN+MUfMe5XFcZQht5heglB5ERt11T0mwNhnH4E4jMKFWVdChhcAYTi3hewaKfWuaSo1vULI+y+c4hJNzmtRlG0UkIdUgPHIeSZzt7UK0iozQ==~3355444~4273976; bm_sv=556F6309F18BAAD9C123667C5C91C86D~YAAQDW/ZFy5zOZuTAQAAd1fv8hqRm4D1+TdJADVC07RrpP20q447b963o5Km+HbhnY3jTcnSeWvfbBDa+9ZXVFzTsDBTJIJYV9snQ9+kZ9P8SiIHuXN/kUGCflrSpH6r7FprZD6ljYRdXpCALr1mtcFmN5SeZiFKpI6hI9mJOarWRmSUQXx4LE1zxVpiKopY+artk1FFOVCGbxL/b+ydAPFyfCe4GFqmUar26g/c5L8rIF3VebMD0ZQwwu8mk5yaVqw=~1; bm_mi=FAB949FC80912DCD7B5A4FF680198AB3~YAAQDW/ZF1VwOZuTAQAA6Srv8hp+MBK47Ia2L5eyu4onlYoKFRqkGQZ+wKeooExxRE/xONaSMjFTqM7J9BvolNrYIlMm5eCe29DYMLkOpwu4CONg0CqAkYWTIXoZUDXMltNhoDOjTR/hrj81LKpLi6o1AF52QmDUL1dcWAIo4Uc5Sc2W6CVPj4VqNwQb1Y+zWu07vnB9lNxvOv0KJBFNN3rvidLNl+M9P5Jdm5vtzNJuswKHkhCq1yD2dSZwATpWa0cENYvTtN3AwH6OK9HwioSZPegir6cxMvCuyM9WO1TA54S2COEUEcyxtKrz1gWSmKJ6iW3ZCd46Ek377VpbGw==~1; nseQuoteSymbols=[{"symbol":"GOLDBEES","identifier":"","type":"equity"}]',
     'Sec-Fetch-Dest': 'empty',
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Site': 'same-origin',
     'Sec-GPC': '1',
+    'Pragma': 'no-cache',
+    'Cache-Control': 'no-cache',
     # Requests doesn't support trailers
     # 'TE': 'trailers',
 }
@@ -39,10 +44,8 @@ headers = {
 # params = {
 #     'symbol': 'GOLDBEES',
 # }
-
+#
 # response = requests.get('https://www.nseindia.com/api/quote-equity', params=params, cookies=cookies, headers=headers)
-# print(response.json())
-
 
 async def fetch_etf_price(etf_symbol, cookies, headers):
     print(etf_symbol)
@@ -77,15 +80,17 @@ async def main():
 
         for etf_symbol in data['tickers'].keys():
             params = {'symbol' : etf_symbol}
+            ic(etf_symbol)
             response = requests.get('https://www.nseindia.com/api/quote-equity', params=params, cookies=cookies, headers=headers)
+            ic(response)
             etf_price_info =response.json()
             etfs_prices_info[etf_symbol] = {'price' : etf_price_info['priceInfo']['lastPrice'], 'change' : etf_price_info['priceInfo']['pChange']}
 
-        # # etf_symbols = list(data['tickers'].keys())
-        # # etfs_prices_info = await fetch_all_etf_prices(etf_symbols, cookies, headers)
-        #
-        #
-        # ic(etfs_prices_info)
+        # etf_symbols = list(data['tickers'].keys())
+        # etfs_prices_info = await fetch_all_etf_prices(etf_symbols, cookies, headers)
+
+
+        ic(etfs_prices_info)
 
 
 
