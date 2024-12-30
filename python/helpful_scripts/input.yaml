@@ -4,28 +4,28 @@ threshold: -0.5
 tickers:
   ALPHA:
     rebalance_factor: 1
-    weight: 2
+    weight: 6
   ALPHAETF:
     rebalance_factor: 1
-    weight: 2
+    weight: 6
   CPSEETF:
     rebalance_factor: 1
-    weight: 2
+    weight: 6
   GOLDIETF:
     rebalance_factor: 1
-    weight: 2
+    weight: 6
   HDFCSML250:
     rebalance_factor: 1
-    weight: 2
+    weight: 6
   MIDCAPETF:
     rebalance_factor: 1
-    weight: 2
+    weight: 6
   MON100:
     rebalance_factor: 0.1
-    weight: 2
+    weight: 5
   NIFTYBEES:
     rebalance_factor: 1
-    weight: 2
+    weight: 6
   SMALLCAP:
     rebalance_factor: 1
-    weight: 1
+    weight: 5
