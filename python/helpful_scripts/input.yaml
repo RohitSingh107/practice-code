@@ -1,31 +1,31 @@
 dail_limit: 1000
-last_updated: 2024-12-23
+last_updated: 2025-01-09
 threshold: -0.5
 tickers:
   ALPHA:
     rebalance_factor: 1
-    weight: 6
+    weight: 1
   ALPHAETF:
     rebalance_factor: 1
-    weight: 6
+    weight: 1
   CPSEETF:
     rebalance_factor: 1
-    weight: 6
+    weight: 1
   GOLDIETF:
     rebalance_factor: 1
-    weight: 6
+    weight: 15
   HDFCSML250:
     rebalance_factor: 1
-    weight: 6
+    weight: 1
   MIDCAPETF:
     rebalance_factor: 1
-    weight: 6
+    weight: 1
   MON100:
     rebalance_factor: 0.1
-    weight: 5
+    weight: 1
   NIFTYBEES:
     rebalance_factor: 1
-    weight: 6
+    weight: 1
   SMALLCAP:
     rebalance_factor: 1
-    weight: 5
+    weight: 1
