@@ -1,5 +1,5 @@
 dail_limit: 1000
-last_updated: 2025-01-09
+last_updated: 2025-01-13
 threshold: -0.5
 tickers:
   ALPHA:
@@ -13,7 +13,7 @@ tickers:
     weight: 1
   GOLDIETF:
     rebalance_factor: 1
-    weight: 15
+    weight: 17
   HDFCSML250:
     rebalance_factor: 1
     weight: 1
